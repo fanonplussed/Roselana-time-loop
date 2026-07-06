@@ -38,7 +38,7 @@ default french = 0
 default hockey = 0
 default time = 1
 
-default clearemail == 0
+default clearemail = 0
 
 default svet_tour = 0
 default svet_room1 = False ## the rose noticing sveta's style but also because she was concerned-friend about shane dating ilya, and sveta saying 'me too'
