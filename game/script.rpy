@@ -4,7 +4,7 @@
 label start: 
 
     # jump start_real 
-    # code red uncomment the above for launch
+    # code red uncomment the above for launch!
 
     menu:
         "For playtesting"
