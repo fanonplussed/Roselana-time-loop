@@ -8,7 +8,7 @@ define SH = Character("Shane", color="#4d9bf5")
 define IR = Character("Ilya", color="#fa9a34")
 
 define Pilot = Character("Pilot", color="#ee1b1b")
-define Girl = Character("Random Girl in the Chocolate Aisle", color="#ee1b1b")
+define Girl = Character("Random Girl", color="#ee1b1b")
 define Cashier = Character("Bored Cashier", color="#ee1b1b")
 define Meg = Character("Rose's Agent Megan", color="#ee1b1b")
 
@@ -32,13 +32,15 @@ default shane_room2 = False
 default shane_room3 = False
 
 default tealoop = 0
-default svet_fact = False
+default svet_fact1 = False ## russian nice to meet you
+default svet_fact2 = False ## svetlana likes wind-up animal toys
 
 default french = 0
 default hockey = 0
 default time = 1
 
 default clearemail = 0
+default foodtruckkitty = 0
 
 default svet_tour = 0
 default svet_room1 = False ## the rose noticing sveta's style but also because she was concerned-friend about shane dating ilya, and sveta saying 'me too'
@@ -51,7 +53,7 @@ default room3blind = False
 
 default outside = 0
 default inside = 0
-default svetpass = False
+default svetpass = 0
 default kisscount = 0
 
 # flags temp #####
@@ -64,8 +66,11 @@ default svetheart = 0
 default convincesvet = 0
 default kissnow = False
 
-## non-convo flags ###
+default random = 0
 
+## playtest flags ###
+
+default pt = ""
 
 
 ## positions and transforms ######
@@ -100,7 +105,7 @@ define gui.show_name = True
 
 ## The version of the game.
 
-define config.version = "1.0"
+define config.version = "1.2"
 
 
 ## Text that is placed on the game's about screen. Place the text between the

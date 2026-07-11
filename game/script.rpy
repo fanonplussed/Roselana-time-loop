@@ -1,7 +1,7 @@
 # The game starts here.
 # code red! comment out all code red things on launch
 
-label start: 
+label start:
 
     jump start_real 
     # code red uncomment the above for launch!
@@ -70,6 +70,7 @@ label start_real:
     $ svetheart = 0
     $ convincesvet = 0
     $ kissnow = False
+    $ random = 0
 
     ## loop starts here
 
@@ -127,11 +128,27 @@ label start_real:
     elif loop == 3:
         RL "...okay. Guess we can rule out the Ambien being the problem then."
 
-        "HEADS UP this is the end of what is written thus far, like you can keep playing but no guarantees it'll run properly." ## cut this out!
+        RL "So what {i}is{/i} the problem then...??"
     
     else:
 
-        RL "Guess we're doing this again..."
+        ## is this just pointlessly asking Rose to record more lines...? is it better to be sequentially different and then exactly the same for players to safely ignore?
+
+        $ random = renpy.random.randint(1, 4) 
+
+        if random == 1:
+            RL "Guess we're doing this again..."
+
+        elif random == 2:
+            RL "Let's start from the very beginnning~ A very good place to start~"
+
+            RL "If you read you begin with A, B, C~ If you're stuck in a time loop, sing with me~"
+
+        elif random == 3:
+            RL "Alright, take...five? Take ten...? Wow, I've lost count."
+        
+        else:
+            RL "Twenty minutes to download a new driving playlist, go go go!"
 
     jump airport
 
@@ -198,6 +215,23 @@ label airport:
                 show zzrl resigned
 
                 RL "Better go."
+        
+        "Go somewhere other than the cottage" if loop >= 4: ## come back to this, this is fully not necessary
+
+            show zzrl hesitant
+
+            RL "Shane's not gonna be happy about this tomorrow...assuming there's gonna be a tomorrow..."
+
+            RL "Hmm, where {i}should{/i} I go? I suppose I can still pick up my rental and drive around Ottawa--"
+
+            Girl "Oh my god, is that Rose Landry??"
+
+            ##play audio
+            "phonecamera.mp3"
+
+            RL "Damn it! Ah, well, fingers crossed there {i}isn't{/i} gonna be a tomorrow..."
+
+            $ papped = True
 
     if loop == 0:
         RL "Now where's the car rental place... Ah, there we are!"
@@ -272,7 +306,7 @@ label ctdoor:
     scene bg ctout
     with fade
 
-    if loop == 0: ## or we can do all the things she said
+    if loop == 0:
 
         ##play music
         "play music badthings1.mp3"
@@ -294,7 +328,7 @@ label ctdoor:
         show zzrl flat
         with fade
 
-        RL "Hmm, Shane still hasn't seen my message... I hope they're not out..."
+        RL "Hmm, Shane still hasn't seen my message... I hope they're at home..."
 
     elif loop == 1:
 
@@ -322,17 +356,14 @@ label ctdoor:
     
     elif loop == 2:
 
-        ##play music
-        "play music badthings1.mp3" ## you may want this on the audio track instead of the music track
-
-        ##stop music
-        "stop music badthings1.mp3 at the 'we've both been here before line'"
+        ##play audio
+        "play audio badthings2.mp3 that cuts off at 'we've both been here before line'" ## need to listen to make sure this works
 
         show zzrl wince
 
         RL "..."
 
-        RL "A different driving playlist next time, maybe. If there's going to be a next time, and I'm not just going crazy..."
+        RL "...a different driving playlist, next time. If there's gonna be a next time, and I'm not just going crazy..."
 
         ##play audio
         "cardoor.mp3"
@@ -342,8 +373,54 @@ label ctdoor:
         show zzrl flat
         with fade
 
+    elif loop == 3:
+        ##play audio
+        "play audio attss1.mp3: this is the post-chorus in all the things she said that is just 'all the things she said' x10"
+
+        RL "Not sure this playlist is any better..."
+
+        ##play audio
+        "cardoor.mp3"
+
+        scene bg ctdoor
+
+        show zzrl flat
+        with fade
+
+    elif loop == 4:
+        ##play audio
+        "play audio attss2.mp3: this is still all the things she said but it's 'yes I've lost my mind ... will I ever be free'"
+
+        RL "...maybe next time I should just do podcasts. Or instrumental music."
+
+        ##play audio
+        "cardoor.mp3"
+
+        scene bg ctdoor
+
+        show zzrl flat
+        with fade
+    
+    elif loop == 5:
+
+        ##play music
+        "play whatever actual music should be in this scene"
+
+        RL "...if I didn't enjoy driving, this time loop would be actual hell."
+
+        ##play audio
+        "cardoor.mp3"
+
+        scene bg ctdoor
+
+        show zzrl flat
+        with fade
+    
     else:
-        RL "here we go again..."
+        ##play music
+        "play whatever actual music should be in this scene"
+
+        RL "*Humming* ...here we are."
 
         ##play audio
         "cardoor.mp3"
@@ -355,6 +432,7 @@ label ctdoor:
 
     menu:
         "Ring the doorbell":
+            $ pt += "doorbell, "
 
             if doorbell == 0:
 
@@ -446,6 +524,7 @@ label ctdoor:
         "Knock on the door" if knockpass == False:
 
             if knock == 0 and loop == 0:
+                $ pt += "knock, "
 
                 $ knock += 1
 
@@ -472,6 +551,8 @@ label ctdoor:
                 RL "..."
 
                 if loop == 1:
+                    $ pt += "knock, "
+
                     RL "The door was unlocked, in my dream, I wonder if--oh, it {i}is{/i}."
 
                     jump entrance
@@ -481,6 +562,7 @@ label ctdoor:
 
                     menu:
                         "Go in":
+                            $ pt += "knock, "
 
                             jump bargein                            
 
@@ -489,6 +571,7 @@ label ctdoor:
                             jump knockharder
             
             elif knock == 1 and loop == 1:
+                $ pt += "knock, "
                 $ knock += 1
 
                 ##play audio 
@@ -516,6 +599,7 @@ label ctdoor:
 
                 menu:
                     "Go in":
+                        $ pt += "knock, "
 
                         jump bargein                            
 
@@ -524,6 +608,7 @@ label ctdoor:
                         jump knockharder
         
         "Knock on the door REALLY HARD" if knockpass == True:
+            $ pt += "knockpass, "
 
             jump knockpass
                         
@@ -538,6 +623,7 @@ label knockharder:
 
     menu:
         "Just go in":
+            $ pt += "knock, "
 
             jump bargein
 
@@ -552,10 +638,12 @@ label knockharder:
 
             menu:
                 "Just go in already":
+                    $ pt += "knock, "
 
                     jump bargein
 
                 "Knock even HARDER":
+                    $ pt += "knockpass, "
 
                     $ knockpass = True
 
@@ -590,7 +678,7 @@ label bargein:
     
     $ bargecount += 1
 
-    ## this part is purely for fun and can be edited away if it's not actually fun
+    ## this part is purely for fun and can be edited away if it's not actually fun and is just making more work for Rose
 
     if bargecount == 1:
 
@@ -605,6 +693,12 @@ label bargein:
         RL "NO ONE EXPECTS THE LANDRY INQUISITION!"
     
     elif bargecount == 4:
+
+        RL "Your moon~ Your moon and your man~"
+
+        RL "Don't moon~ Don't moon me again~"
+    
+    elif bargecount == 5:
 
         RL "Incoming!!"
 
@@ -714,7 +808,7 @@ label entrance:
     else:
         show zzrl resigned
 
-        RL "Yeah, my bad. You have no idea how hard I tried not to."
+        RL "Yeah, my bad, I'll try to do better next time."
 
     show zzsh embarrassed # this lives here because there's no need for Shane to be embarrassed if you don't barge in on them 
 
@@ -840,9 +934,11 @@ label entrancepass:
     elif loop == 2:
         menu:
             "Yes":
+                $ random = 10
                 pass
 
             "No":
+                $ random = 11
                 pass
         
         RL "Yes--I mean, no, I--I mean, maybe...?"
@@ -858,18 +954,36 @@ label entrancepass:
     else:
         menu:
             "Yes":
-                "something something you know her better than hollanov think, at this point..."
+                $ random = 10
+
+                show zzrl resigned
+
+                RL "Yeah, I know her better than you think I do. Better than she thinks I do too, probably."
+
+                show zzir annoyed
+
+                IR "What do you mean. You read a lot of paparazzi bullshit about her or something?"
+
+                RL "No, no, if only my sources were that mundane."
             
             "No":
-                "can anyone ever truly know a person if they never get a chance to know you in return?"
+                $ random = 11
 
-                "hollanov: ??? that's kinda philosophical and bleak...?"
+                show zzrl thoughtful
 
-                "rose: nvm"
+                RL "Can anyone ever truly know another person?"
+
+                SH "Um. Yes?"
+
+                RL "If you get to know someone a hundred times, but they never get to know you back, does it still matter?"
+
+                IR "...yes."
 
     SH "Uh. Okay. That's..."
     
-    SH "You know what, never mind. I should...I should show you around."
+    SH "You know what, never mind. Why don't I, um."
+    
+    SH "I should show you around."
 
     show zzir eyeroll
 
@@ -904,11 +1018,11 @@ label entrancepass:
             else:
                 show zzrl smile
 
-                RL "House tour, right, okay, let's do this! Tell me all about your sexy hardwoods and exposed beams."
+                RL "House tour, right, cool, let's go! Tell me all about your sexy hardwoods and exposed beams."
 
                 show zzsh hesitant
 
-                SH "...okay, let's...do that."
+                SH "...okay, let's. Do...that."
 
                 jump housetour
             
@@ -998,6 +1112,7 @@ label entrancepass:
             jump teatime
 
 label teatime:
+    $ pt += "tea, "
 
     scene bg dining
 
@@ -1021,41 +1136,20 @@ label teatime:
 
             "Talk about Shane":
                 call teatime.shane
+    
+    elif tealoop == 2:
 
-    else:
-
-        "rose at this point is like, is the universe trying to tell me i should improve myself...??"
+        $ tealoop += 1
 
         menu:
-            "or maybe not...continue chatting":
+            "Talk about Ilya":
+                call teatime.ilya
 
-                if tealoop == 2:
-                    "more alt convo: ooh, you learn some cool secret fact about svetlana!"
+            "Talk about Shane":
+                call teatime.shane
 
-                    $ svet_fact = True
-                    $ tealoop += 1
-                
-                else:
-                    "blahblahblahblah nothing of worth is talked about here"
-
-
-            "study french":
-                "rose: actually boys i have a sudden desperate need to study french, excuse me"
-
-                "ilya: yes, talking to shane also gives me sudden desperate need to study french sometimes. if you know what i mean."
-
-                $ time = 1
-
-                jump grind_french
-
-            "improve your hockey":
-                "rose: ctually boys i have a sudden desperate need to train up my hockey skills. right now"
-
-                "shane: oh hey, what a coincidence, me too!"
-
-                $ time = 1
-                
-                jump grind_hockey
+            "Talk about Svetlana":
+                call teatime.sveta
 
     ##play audio
     "knockloud2.mp3"
@@ -1132,7 +1226,7 @@ label teatime.shane:
 
     IR "...And how much do you like chocolate, Rose Landry?"
 
-    show zzrl shy
+    show zzrl surprised_blush
 
     RL "Oh, haha, I mean, we're not talking about me!"
 
@@ -1181,6 +1275,100 @@ label teatime.shane:
     SH "Oh, fuck off, Rozanov, Hayden was good about it, okay? I mean, at least until I told him about--"
 
     return
+
+label teatime.sveta:
+    show zzrl smile
+
+    RL "So, tell me more about Svetlana!"
+
+    if random == 10:
+        show zzir annoyed
+
+        IR "Why? Thought you know all about her."
+
+    else:
+        show zzir annoyed
+
+        IR "Why do you care? Thought you don't know her."
+    
+    show zzsh annoyed
+
+    SH "Ilya."
+
+    show zzir eyeroll
+
+    IR "Fine. She is Russian. Very pretty, very smart. Out of your league, Rose Landry."
+
+    show zzsh frown
+
+    SH "...not out of {i}your{/i} league though."
+
+    show zzir hesitant
+
+    IR "...солнышко. You know I am in {i}your{/i} league now. No one else." ## check russian, check book endearments. should this be in cyrillic? come back to this whole league bit anyway i don't know i like how unsubtle it is and also maybe it's not funny and goes on too long
+
+    show zzsh embarrassed
+
+    SH "...yeah, I know. Sorry."
+
+    show zzsh wry_blush
+
+    SH "I mean, technically we're both in the MLH, so really--"
+
+    show zzir smirk
+
+    IR "We're both in the same league, yes. But also--what is the thing the media says? In our own league?"
+
+    show zzsh smirk
+
+    SH "In a league of our own."
+
+    IR "Yes. We are in a league of our own. Should play against each other only, and not have to play in the same league as dinosaurs like Scott Hunter. Hockey should be for humans--"
+
+    SH "Sure, Rozanov, you can take it up with the commissioner."
+
+    show zzsh smile_blush
+
+    SH "Ah, sorry, Rose, you were asking about Svetlana. Like I told you, she's Ilya's best friend. She lives in Boston, but visits Moscow a lot."
+
+    show zzsh frown
+
+    SH "And Ottawa too. She visits Ottawa a lot too, now. More than I do, probably."
+
+    SH "Which is good. It is. It's--"
+
+    show zzir hesitant
+
+    IR "Sveta also likes the dumb toys she had when she was small. Noisy wind-up things, little animals. Too sentimental to throw them out even after they break."
+
+    IR "Probably why she still likes me, okay?"
+
+    show zzsh frown
+
+    SH "You're not broken--"
+
+    show zzir eyeroll
+
+    IR "Okay, okay, so you are the noisy toy, not me. So she will like you too."
+
+    show zzir smirk
+
+    IR "Very easy to wind up, very fun to play with, like a little animal in--"
+
+    show zzsh annoyed_blush
+
+    SH "{i}Ilya{/i}"
+
+    ##play audio
+    "knockloud2.mp3"
+
+    show zzsh flat
+
+    SH "Oh! That's probably her now."
+
+    $ svet_fact2 = True
+
+    jump svet_entrance
 
 label grind_french:
 
@@ -1285,50 +1473,7 @@ label housetour:
 
     menu:
         "Continue the house tour":
-
-            if svetpass == True:
-                "no wait! the blinds!"
-
-                menu:
-                    "ask shane how to close the blinds":
-                        "rose: shane, babe, love all the natural light, but how do you hypothetically get less of it?"
-
-                        "shane: for which room?"
-                        
-                        menu:
-                            "this one":
-                                "shane: the remote is in the drawer"
-
-                                $ room1blind = True
-
-                            "the room next door":
-                                scene bg room2
-
-                                show zzsh flat at center
-                                show zzir flat at midright
-                                show zzrl flat
-                                with fade 
-
-                                "shane: this one? the remote is mounted next to the door"
-
-                                $ room2blind = True
-
-                            "the room downstairs":
-                                scene bg room3
-
-                                show zzsh flat at center
-                                show zzir flat at midright
-                                show zzrl flat
-                                with fade
-
-                                "shane: this one? the remote is beside the lamp"
-
-                                $ room3blind = True
-
-                    "nah it's fine":
-                        pass
-            else:
-                pass
+            $ pt += "house tour, "
 
             $ tourloop += 1
 
@@ -1366,12 +1511,53 @@ label housetour:
             
             RL "You guys deserve to have all this peace, all this sunlight."
 
-            ## RL "I gotta say, with all the windows, it does feel kinda like you also love exhibitionism."
-            ## maybe this goes in another loop?
-
             ## ask about why not the montreal appartment? and shane can be like, oh that place is chosen for hockey. and rose can point out this house is like the antithesis of a hockey rink
 
             SH "I...yeah. Thanks, Rose. I love it too."
+
+            if svetpass >= 1:
+
+                menu:
+                    "Ask Shane about curtains":
+                        $ room1blind = True
+                        
+                        show zzrl grin
+
+                        RL "Though I gotta say, with all the windows and no curtains? It's got the vibes of like, you love sunlight, sure, but you also love exhibitionism."
+
+                        show zzsh embarrassed
+
+                        SH "{i}Rose{/i}, what, I don't--I mean, this house has blinds! On all the windows!"
+
+                        show zzrl eyebrow
+
+                        RL "Really? Where?"
+
+                        SH "It's, there's a remote, it's in this, uh..."
+
+                        RL "Chunk of half-melted legos?"
+
+                        SH "Artistic...container. It opens like...this?"
+                        
+                        SH "No, wait, you turn {i}this{/i} bit...and then you press {i}that{/i}..."
+
+                        RL "Oh, it's a puzzle box?"
+                        
+                        SH "...I don't think it's meant to be. The interior designer said--{i}aha!{/i} Here!"
+
+                        RL "Well, at least the remote looks normal. I assume it doesn't make anything in here explode or--"
+
+                        ##play audio
+                        "knockloud2.mp3"
+
+                        SH "Oh! That must be Svetlana."
+
+                        RL "...wow, we spent more time than expected trying to get to that remote, huh."
+
+                        jump svet_entrance
+
+                    "Carry on the house tour":
+                        pass
 
             RL "I especially love that all your guest rooms have en-suites. Shared bathrooms are the worst."
 
@@ -1425,6 +1611,45 @@ label housetour:
 
                     SH "Yeah, everything's hidden because of the minimalist aesthetic, apparently. The panel for the bathroom lights and floor heating is all hidden near the door here too."
 
+                    if svetpass >= 1:
+
+                        menu:
+                            "Ask Shane about curtains":
+                                $ room2blind = True
+                                
+                                RL "Any chance there's curtains hidden too? Cause I gotta say I'm feeling a little exposed in here, if you know what I mean."
+
+                                show zzrl grin
+
+                                RL "Which, hey, maybe that's also meant to be part of the aesthtic, I dunno what you or your guests get up to in the privacy of--"
+
+                                show zzsh embarrassed
+
+                                SH "Oh my god, Rose, I don't--there's blinds! They're just hidden!"
+
+                                SH "You wave your hand over this panel near the bed and--"
+
+                                ##play sound
+                                "switch.mp3"
+
+                                show zzsh wry
+
+                                SH "--and look, all the privacy you want."
+
+                                RL "Fun! Although having a motion sensor so close to the bed that might accidentally bring the blinds up and down--"
+
+                                ##play audio
+                                "knockloud2.mp3"
+
+                                SH "Oh! That must be Svetlana."
+
+                                RL "Better ask if she likes living dangerously."
+
+                                jump svet_entrance
+
+                            "Carry on the house tour":
+                                pass
+
                     RL "Did you have a different interior designer for each room...? Did you fire the last guy after he tried to plant a bomb on your wall?"
 
                     show zzsh embarrassed
@@ -1455,6 +1680,46 @@ label housetour:
                     RL "This one has much more normal decor, I have to say."
 
                     SH "Yeah, I built this one for my parents. That's why there's two walk-in closets."
+
+                    if svetpass >= 1:
+
+                        menu:
+                            "Ask Shane about curtains":
+                                $ room3blind = True
+
+                                show zzrl grin
+                                
+                                RL "Any chance you thought they might want curtains too?"
+
+                                SH "Oh, yeah, there's a remote for the blinds behind the lamp here."
+
+                                show zzrl thoughtful
+
+                                RL "Gotcha. You know, I can't help noticing that this place is completely different from your place in Montreal. I mean, sure, it's an apartment in the city instead of a mansion out by a lake, but..."
+
+                                SH "I guess I mainly picked my apartment in Montreal for how close it is to the rink and how good the security is. It's not like I spend much time there."
+
+                                show zzrl eyebrow
+
+                                RL "You don't spend much time...in the place that you live for most of the year...?"
+
+                                SH "I mean, most of the season, if I'm not at the rink, I'm at the gym, or asleep. And it's not like I have to host the team, cause Hayden does that."
+
+                                SH "Montreal is for hockey, right? The summer, this cottage, is for me."
+
+                                show zzrl hesitant
+
+                                RL "Oh, Shane, babe, that's--"
+
+                                ##play audio
+                                "knockloud2.mp3"
+
+                                SH "Oh! That must be Svetlana."
+
+                                jump svet_entrance
+
+                            "Carry on the house tour":
+                                pass
                     
                     RL "Don't they have their own cottage ten minutes away? Why would they need even one walk-in closet, let alone two of this...size..."
 
@@ -1487,6 +1752,7 @@ label housetour:
                     $ shane_room3 = True
 
         "Stop the house tour":
+            $ pt += "fake house tour, "
 
             if notourloop == 0:
                 $ notourloop += 1
@@ -1615,6 +1881,7 @@ label housetour:
     jump svet_entrance
 
 label paptalk:
+    $ pt += "papped, "
 
     ##play audio
     "rosephone.mp3"
@@ -1802,7 +2069,7 @@ label svet_entrance:
 
         "Прия́тно позна ко́миться":
 
-            if svet_fact == True: ## come back to this
+            if svet_fact1 == True: ## come back to this
                 RL "Прия́тно позна ко́миться, Svetlana"
 
                 $ svetheart += 2
@@ -1976,6 +2243,8 @@ label svet_entrance:
             jump housetour2
 
         "Offer to let Svetlana relax alone":
+            $ pt += "alone 1, "
+
             RL "Oh, did you drive up all the way from Boston? You must be so tired! If you want to rest and recharge by yourself...?"
 
             show zzsv smile
@@ -1999,6 +2268,8 @@ label svet_entrance:
                 show zzrl wince
                 
                 RL "Really, Shane? This is your idea of a coffee table book? ...Maybe I'll just play some Food Truck Kitty." ## workshop this. marval snap? could transition with an image of the game
+
+                $ foodtruckkitty += 1
 
                 scene cut game
                 with fade
@@ -2095,6 +2366,7 @@ label svet_entrance:
             jump dinner
 
 label housetour2:
+    $ pt += "sveta tour, "
 
     scene bg room2
 
@@ -2107,6 +2379,10 @@ label housetour2:
             "close the blinds?"
 
             "yes":
+                "just close the blinds -- there was an additional puzzle layer here, dunno if we actually need it"
+
+                jump blindsclose
+
                 "now, where's that pesky remote?"
 
                 menu:
@@ -2170,7 +2446,7 @@ label housetour2:
     SV "Though perhaps if it {i}was{/i} you and me, we could fit comfortably in an even smaller bed than this."
 
     if svet_tour == 0:
-        show zzrl shy
+        show zzrl smile_blush
 
         RL "Oh, right, haha, maybe! Um, good thing this is just the guest room then, and not Shane and Ilya's room!"
 
@@ -2232,11 +2508,11 @@ label housetour2:
 
         SV "My goodness, you're even more magical than I thought."
 
-        show zzrl shy
+        show zzrl smile_blush
 
         RL "Oh, haha, thank you. Um, if you've enjoyed the service, please leave a good review at the end of your trip, Ma'am."
 
-        show zzrl smile_blush
+        show zzrl grin_blush
         
         RL "Anyway, let me magic you away to the next room!"
     
@@ -2262,43 +2538,49 @@ label housetour2:
             with fade
 
             if room1blind == True:
-
-                "quick close the blinds!"
-
-                "now, where's that pesky remote?"
-
                 menu:
-                    "in the drawer":
-                        "indeed, there it is!"
+                    "close the blinds?"
+
+                    "yes":
+
+                        "just close the blinds -- there was an additional puzzle layer here, dunno if we actually need it"
 
                         jump blindsclose
 
-                    "next to the door":
-                        "nope, it's not there"
+                        "now, where's that pesky remote?"
 
-                        "svetlana is like, what on earth are you doing? shamefaced, you're about to continue the housetour--but too late!"
+                        menu:
+                            "in the drawer":
+                                "indeed, there it is!"
 
-                        scene cut hollanov2a
-                        with fade
+                                jump blindsclose
 
-                        "well, you tried"
+                            "next to the door":
+                                "nope, it's not there"
 
-                        jump dinner
+                                "svetlana is like, what on earth are you doing? shamefaced, you're about to continue the housetour--but too late!"
 
-                    "beside the lamp":
-                        "nope, it's not there"
+                                scene cut hollanov2a
+                                with fade
 
-                        "svetlana is like, what on earth are you doing? shamefaced, you're about to continue the housetour--but too late!"
+                                "well, you tried"
 
-                        scene cut hollanov2a
-                        with fade
+                                jump dinner
 
-                        "well, you tried"
+                            "beside the lamp":
+                                "nope, it's not there"
 
-                        jump dinner
-            
-            else:
-                pass
+                                "svetlana is like, what on earth are you doing? shamefaced, you're about to continue the housetour--but too late!"
+
+                                scene cut hollanov2a
+                                with fade
+
+                                "well, you tried"
+
+                                jump dinner
+                    
+                    "no":
+                        pass
 
             if shane_room1 == True:
 
@@ -2401,6 +2683,9 @@ label housetour2:
                     "close the blinds?"
 
                     "yes":
+                        "just close the blinds -- there was an additional puzzle layer here, dunno if we actually need it"
+
+                        jump blindsclose
 
                         "now, where's that pesky remote?"
 
@@ -2505,6 +2790,10 @@ label blindsclose:
     "rose: oh, just so it won't get to warm, what with all this light! so you can be comfortable when you sleep in here later!"
 
     "svet: right, guess you've decided that this is my room then"
+
+    "the stuff after this was one more additional puzzle layer we may not need"
+
+    jump dinner
 
     if tourdone == "A" and svet_room1 == True and giftbought == "noise":
         "rose: and i even bought you a white noise machine to make this room better!"
@@ -2710,7 +2999,7 @@ label dinner:
 
                 SV "Oh, you have charmed them?"
 
-                show zzir lookaway
+                show zzir hesitant
 
                 IR "I..."
 
@@ -2768,6 +3057,7 @@ label dinner:
 
     menu:
         "Join her outside":
+            $ pt += "go out, "
 
             $ svetheart += 1
 
@@ -2788,6 +3078,7 @@ label dinner:
             jump grind_hockey
         
         "Stay indoors": ## come back to this, if this scene is weird on a 3+ playthrough you can add an else statement
+            $ pt += "stay in, "
 
             RL "Oh, right. I'll come get you when Shane and Ilya get back...?"
 
@@ -2844,6 +3135,8 @@ label dinner:
             show zzrl grin
 
             RL "Or maybe...more Food Truck Kitty."
+
+            $ foodtruckkitty += 1
 
             scene cut game
             with fade
@@ -3037,7 +3330,7 @@ label outside: ## these scenes are so long oh man are they too long??
 
         SV "Hmm. You are an extraordinarily perceptive woman, Rose. Or Ilya is telling Shane far more than I thought he was."
 
-        show zzrl shy
+        show zzrl smile_blush
 
         RL "Oh, no, I'm really not! And Ilya's really not."
 
@@ -3146,7 +3439,7 @@ label outside: ## these scenes are so long oh man are they too long??
 
         show zzsv eyebrow
 
-        SV "You seem thoughtful. Dare I--ask what you're thinking of?"
+        SV "You seem thoughtful. Dare I--"
 
         RL "{size=-10}'--ask what you're thinking of?'"
         
@@ -3158,26 +3451,42 @@ label outside: ## these scenes are so long oh man are they too long??
 
         show zzrl hesitant
 
-        RL "Sorry. Um."
+        RL "Sorry. I didn't mean to, um--"
+
+        show zzsv flirty
+
+        SV "Read my mind? Careful, you might blush at some of the things I'm thinking about you."
+
+        show zzrl wince_blush
+
+        RL "Oh, I mean, I can't read your mind, but..."
+
+        show zzrl hesitant
         
-        RL "Okay, you didn't think I was crazy last time, so I'll just come out and say it. Either I've gained some sort of mutant powers of precognition, or I'm living through some kind of groundhog day, or...I mean, I don't know, but something strange is going on!"
+        RL "Okay, you didn't think I was crazy last time, so I'll just come out and say it. Either I've gained some sort of mutant powers of precognition, or I'm living through some kind of groundhog day, or...something, I don't know, but something strange is going on!"
 
-        SV "...That's..."
+        show zzsv surprised
 
-        RL "The last time I remember being out here, talking to you, we talked about Shane and Ilya. And how you think they seem good together when they {i}are{/i} together, but they're just not together for a lot of the year."
+        SV "...something...strange?"
 
-        RL "And that their long distance relationship has been harder for Ilya than for Shane."
+        RL "The last time I remember being out here, talking to you, we talked about Shane and Ilya. And you said that they seem good together when they {i}are{/i} together, but they're {i}not{/i} together for a lot of the year."
 
-        RL "Oh, and also, the last time Shane and Ilya were fully making out in their bedroom with the blinds up. And as you can see--"
+        RL "And you said that the long distance relationship has been harder for Ilya than for Shane."
+
+        show zzsv eyebrow
+
+        SV "...I said that, did I?"
+
+        RL "Oh, and also, last time, despite the fact that they said they were going out to get your bags, Shane and Ilya were fully making out instead. And as you can see--"
 
         scene cut boys_inside
         with fade
 
         RL "--they are."
 
-        SV "...Indeed."
+        SV "...Indeed they are."
 
-        RL "...yeeeeeah. To be honest, I kind of thought they wouldn't have gotten their clothes off quite that fast."
+        RL "...yeah. I really need to ask Shane why there aren't any curtains in this house."
 
         scene bg backporch
 
@@ -3185,70 +3494,109 @@ label outside: ## these scenes are so long oh man are they too long??
         show zzrl hesitant
         with fade
 
-        RL "Anyway, I know it's not proof of...of precognition or Groundhog days. But I would swear this is the third time we're talking out here together, in my memories, even though it's impossible. And you didn't think I was crazy before, so..."
+        RL "Anyway, I know it's not proof of...of anything. But I would swear this feels like the third time we're talking out here together, and it feels so real every single time even though it's impossible. And maybe I really am going crazy, but..."
 
         show zzsv thoughtful
 
-        SV "Well, you haven't seemed crazy today."
+        SV "You certainly haven't seemed crazy today. Even though all the things you mentioned, you could have potentially guessed."
 
-        show zzsv flirty
+        show zzrl resigned
 
-        SV "Though it sounds, if not impossible, at least improbable, that I should have spoken to you alone three times and only talked about those silly boys every single time. Surely we have better things to talk about."
+        RL "I know. You've said that before. But I swear I'm not that good at guessing."
 
-        show zzrl smile_blush
-
-        RL "Oh, I mean, we also talk about hockey...?"
-
-        show zzsv amused
-
-        SV "That does sound much more probable. Also more fun! So, you follow hockey then?" ## 'follow hockey'? 'watch hockey'? 'are a true fan of hockey'???
+        SV "Hmm. So if you really want prove it to me, you will need to tell me things you cannot guess. Like a test."
 
         show zzrl hesitant
-
-        RL "Yeah, I--no wait! So you believe me??"
-
-        show zzsv thoughtful
-
-        SV "Maybe the question should be, why do you want me to believe you? Why not tell Shane about this?"
-
-        show zzrl wince
-
-        RL "Look, I love Shane, but there is no way I'm getting him to believe Groundhog Day is real. I'm not even sure he's heard of the movie."
-
-        show zzrl hesitant
-
-        RL "And...well, you did sort of believe me last time, and...and I mean, I don't even know if this is real or all in my head--"
-
-        SV "A reasonable question. I propose a test."
 
         RL "A test...?"
 
-        show zzsv smile
+        SV "Yes. Let me think."
 
-        SV "A way for you to prove to me, and yourself, that you are indeed stuck in a time loop."
+        SV "...and let's keep walking in the meantime. The flashes of Shane's naked ass in the corner of my eye is not helping with my concentration."
 
-        SV "I'll ask you some questions you can't possibly know the answers to, unless you've done this before in a previous loop."
+        hide zzsv with easeoutleft
 
-        RL "Oh, right! But I don't think I've done this before yet...?"
+        scene bg outback
+        with fade
+
+        show zzsv flat at center
+        with easeinright
+
+        show zzrl flat
+        with fade
+
+        SV "..."
+
+        RL "{size=-10}...why is there a moose, Shane, why?"
 
         show zzsv amused
 
-        SV "Then you'll just have to get it right next loop. Or, if there's no next loop and this is all in your head, we'll have simply had a very interesting conversation. Unforgettable, even."
+        SV "More than one mystery to be solved today, it seems."
 
-        show zzrl smile
+        show zzsv thoughtful
 
-        RL "We'll laugh about this in twenty years, kind of thing?"
+        SV "Let's solve the more important one first. What if I ask you some questions you can't possibly know the answers to, unless you've done this before?"
 
-        SV "Exactly. Now, first question...hmm..."
+        show zzrl hesitant
+
+        RL "But we {i}haven't{/i} done this before. So there's no way for me to convince you, right...?"
+
+        SV "Not this time, no. But I will tell you the answers, and you might be able to next time, yes?"
+
+        menu:
+            "Do the test":
+                show zzrl hesitant
+
+                RL "I guess that's true. As long as you ask the same questions each time."
+
+                RL "And as long as you promise not to think I'm crazy if I get everything wrong, and I break out of this loop tomorrow anyway."
+
+                show zzsv flirty
+
+                SV "If you get everything wrong and tomorrow happens anyway, this will be the most unforgettable conversation I've had with a beautiful woman I'm meeting for the first time. That's not so bad, is it?"
+
+                show zzrl smile_blush
+
+                RL "I guess not. We'll laugh about this in twenty years, or something?"
+
+                show zzsv smile
+
+                SV "Exactly. Now, first question."
+
+                jump outside_test
+
+            "Try something else":
+                
+                show zzrl hesitant
+
+                RL "You can't just...trust me...? You did, before, sorta."
+
+                show zzsv eyebrow
+
+                SV "Did I? What else did you say to convince me?"
+
+                RL "Um...you asked me what we did after this, and I said we went to pick up your bags and talk hockey. And you asked me to predict your hockey opinions."
+
+                show zzsv amused
+
+                SV "We can do that. I should warn you that I have {i}many{/i} hockey opinions though, so you might not have an easy time convincing me that way."
+
+                show zzrl grin
+
+                RL "It might not be easy, but it {i}was{/i} fun! Okay, so, first, your thoughts on Wyatt Hayes--"
+
+                jump preleaving
 
         call outside_test
-        # you will only return if you fail
+        
+        if convincesvet == 3:
+            jump testpassed
 
         SV "Well, you haven't exactly proven yourself..."
 
         show zzrl wince
 
-        RL "I did say I hadn't done this in a previous loop before."
+        RL "I did say we hadn't done this before."
 
         show zzsv smile
 
@@ -3262,6 +3610,48 @@ label outside: ## these scenes are so long oh man are they too long??
     
     else:
         $ outside += 1
+
+        show zzsv flirty
+
+        SV "And it sounds, if not impossible, at least improbable, that I should have spoken to you alone three times and only talked about those silly boys every single time. Surely we have better things to talk about."
+
+        show zzrl smile_blush
+
+        RL "Oh, I mean, we also talk about hockey...?"
+
+        show zzsv amused
+
+        SV "That does sound much more probable. Also more fun! So, you follow hockey then?" ## 'follow hockey'? 'watch hockey'? 'are a true fan of hockey'???
+
+        #####
+
+        
+        show zzrl hesitant
+
+        RL "Yeah, I--no wait! So you believe me??"
+
+        show zzsv thoughtful
+
+        SV "Maybe the question should be, why do you want me to believe you? Why not tell Shane about this?"
+
+        scene cut boys_inside ## second version
+        with fade
+
+        RL "Um..."
+
+        SV "At a time when he might be more receptive. To the idea, I mean."
+
+        RL "Look, Shane's great, but there is no way I'm getting him to believe Groundhog Day is real."
+
+        SV "Mm. Yes. Shane {i}is{/i} great."
+
+        SV "..."
+
+        SV "...ah, perhaps we should have this conversation somewhere else. Shane's ass has not quite faded into the wallpaper for me yet."
+
+        ####
+
+        RL "Why is there a moose. There's such a thing as being too Canadian, Shane."
 
         "rose: if i'm stuck in a time loop i must be a bad person right?? hypothetically??"
 
@@ -3302,274 +3692,450 @@ label outside: ## these scenes are so long oh man are they too long??
 
             call outside_test
 
-    scene bg dining
-
-    show zzsv smile at center
-    show zzrl smile
-    with fade
-
-    if outside == 1:
-        RL "--and I couldn't believe they came back in the third like that! And then won in OT!"
-
-        SV "I'm not usually a fan of Edmonton, but even I have to admit that--" ## check hockey
-    
-    elif outside == 2: ## check more hockey!!
-        RL "some other hockey dialogue here"
-
-        SV "sorry someone else is gonna write this"
-    
-    elif outside == 3:
-        RL "still more hockey chitchat"
-
-        SV "still leaving this for someone else to write lol"
-    
-    else:
-        RL "hockey hockey hockey"
-
-        SV "more hockey more hockey"
-    
-    jump leaving
+    jump preleaving
 
 label outside_test:
+    $ pt += "try test, "
 
-        SV "See that butterfly over there? Which flower do you think it lands on?"
+    SV "See that butterfly over there? Which flower do you think it lands on?"
 
-        menu:
-            "The pink flower":
-                RL "The pink one."
+    menu:
+        "The pink flower":
+            RL "The pink one."
 
-                SV "..."
+            SV "..."
 
-                show zzsv eyebrow
+            show zzsv eyebrow
 
-                SV "Well, would you look at that, it did. Though I suppose that could be coincidence..."
+            SV "Well, would you look at that, it did. Though I suppose that could be coincidence..."
 
-                show zzrl smile
+            show zzrl smile
 
-                RL "Ask me another question then."
+            RL "Ask me another question then."
 
-                show zzsv smile
+            show zzsv smile
 
-                $ convincesvet += 1
+            $ convincesvet += 1
 
-            "The yellow flower":
-                RL "The yellow one."
+        "The yellow flower":
+            RL "The yellow one."
 
-                SV "..."
+            SV "..."
 
-                SV "Ah, no. It picked the pink flower. Better luck next time."
+            SV "Ah, no. It picked the pink flower. Better luck next time."
 
-                RL "Wait, ask me another question! Just in case, for next time."
+            RL "Wait, ask me another question! Just in case, for next time."
 
-                show zzsv eyebrow
+            show zzsv eyebrow
 
-            "The red flower":
-                RL "The red one."
+        "The red flower":
+            RL "The red one."
 
-                SV "..."
+            SV "..."
 
-                SV "Ah, no. It picked the pink flower. Better luck next time."
+            SV "Ah, no. It picked the pink flower. Better luck next time."
 
-                RL "Wait, ask me another question! Just in case, for next time."
+            RL "Wait, ask me another question! Just in case, for next time."
 
-                show zzsv eyebrow
+            show zzsv eyebrow
 
-        SV "Alright. What's my favourite colour?"
+    SV "Alright. What's my favourite colour?"
 
-        menu:
-            "Pink":
-                RL "Pink."
+    menu:
+        "Pink":
+            RL "Pink."
 
-                show zzsv amused
+            show zzsv amused
 
-                SV "No, it's red, actually. You'll have to remember that for next time."
+            SV "No, it's red, actually. You'll have to remember that for next time."
 
-                RL "I will. Ask me another?"
+            RL "I will. Ask me another?"
 
-            "Yellow":
-                RL "Yellow."
+        "Yellow":
+            RL "Yellow."
 
-                show zzsv amused
+            show zzsv amused
 
-                SV "No, it's red, actually. You'll have to remember that for next time."
+            SV "No, it's red, actually. You'll have to remember that for next time."
 
-                RL "I will. Ask me another?"
+            RL "I will. Ask me another?"
 
-            "Red":
-                RL "Red."
-
-                show zzsv surprised
-
-                SV "It...is, yes. Though Ilya might have told you this."
-
-                show zzrl eyebrow
-
-                RL "You think Ilya Rozanov tells me things?"
-
-                show zzsv amused
-
-                SV "Ah, no, fair enough."
-
-                show zzrl smile
-
-                RL "Look, why don't you ask me another question then? Something Ilya won't know?"
-
-                $ convincesvet += 1
-
-        show zzsv thoughtful
-        
-        SV "Hmm...in that case, which power ranger did i have a crush on when I was younger?"
-
-        menu:
-            "Pink ranger":
-                RL "Pink ranger."
-
-                show zzsv amused
-
-                SV "Sorry, but I liked Tanya Sloan best, actually."
-
-                RL "Who?"
-
-                SV "If you're in a time loop, I'm sure you'll have time to look her up."
-
-            "Yellow ranger":
-                RL "Yellow ranger."
-
-                show zzsv surprised
-
-                SV "I--well. Yes."
-
-                show zzsv thoughtful
-
-                SV "I didn't know whether I wanted her or wanted to be her."
-
-                $ convincesvet += 1
-
-            "Red ranger":
-                RL "Red ranger."
-
-                show zzsv amused
-
-                SV "Sorry, but I liked Tanya Sloan best, actually."
-
-                RL "Who?"
-
-                SV "If you're in a time loop, I'm sure you'll have time to look her up."
-
-        if convincesvet == 3: 
+        "Red":
+            RL "Red."
 
             show zzsv surprised
 
-            SV "Well. I can't say that wasn't convincing."
-            
-            if svetpass == False:
-                RL "So you believe me! That I'm in my own Groundhog Day!" ## come back to this
+            SV "It...is, yes. Though Ilya might have told you this."
 
-                RL "I just don't understand how I keep running into Shane and Ilya...you know..."
+            show zzrl eyebrow
 
-                SV "Fucking?"
+            RL "You think Ilya Rozanov tells me things?"
 
-                RL "Hah! I was going to say making out, but mostly because I keep interrupting them before any fucking actually happens. And I'm not doing this on purpose, I swear, I just can't seem to avoid--not that I think it has to be avoided! They're--"
+            show zzsv amused
 
-                SV "Hot?"
+            SV "Ah, no, fair enough."
 
-                show zzrl grin
+            show zzrl smile
 
-                RL "I was going to say they're my friends, but yes, they're also hot."
+            RL "Look, why don't you ask me another question then? Something Ilya won't know?"
 
-                show zzrl sheepish
+            $ convincesvet += 1
 
-                RL "Don't tell them I said that."
+    show zzsv thoughtful
+    
+    SV "Hmm...the most telling question, I think. Which power ranger did i have a crush on when I was younger?"
 
-                SV "Why not? You think they won't like it?"
+    menu:
+        "Pink ranger":
+            RL "Pink ranger."
 
-                RL "Oh my god, I was going to say they might die of embarrassment, or really that {i}Shane{/i} might die of embarrassment, but considering how many times I've walked in on his naked ass today..."
+            show zzsv amused
 
-                SV "He's still alive, it's true. As is Ilya."
+            SV "Sorry, but I liked Tanya Sloan best, actually."
 
-                RL "Ilya doesn't seem like he would care, no. If anything, he seems like...oh, well, I guess I don't know him very well, I shouldn't judge him by--"
+            RL "Who?"
 
-                SV "Oh, he deserves plenty of judgement, don't worry. Especially for this."
+            SV "If you're in a time loop, I'm sure you'll have time to look her up."
 
-                RL "Especially for...you don't mean to say he might be doing this on purpose...??"
+        "Yellow ranger":
+            RL "Yellow ranger."
 
-                SV "I wouldn't put it past him. He likes to show off his pretty things, and Shane is the prettiest thing he has."
+            show zzsv surprised
 
-                show zzrl hesitant
+            SV "I--well. Yes."
 
-                RL "Oh, that's... You don't think Ilya really thinks of Shane like that, do you...?"
+            show zzsv thoughtful
 
-                show zzsv smile
+            SV "I didn't know whether I wanted her or wanted to be her."
 
-                SV "Mm, no. And it sounds like you don't either. I'm glad."
+            $ convincesvet += 1
 
-                show zzsv thoughtful
+        "Red ranger":
+            RL "Red ranger."
 
-                SV "He can't stop himself from pressing on a bruise, sometimes." ## check appropriate use of nickname
+            show zzsv amused
 
-                RL "Trying to prove he's a big strong man and not scared of pain? My brothers used to get like that too."
+            SV "Sorry, but I liked Tanya Sloan best, actually."
 
-                SV "Hah, yes, you understand. The more it hurts, the more they have to prove."
+            RL "Who?"
 
-                RL "And the bruise is...me finding Shane sexually attractive...?"
+            SV "If you're in a time loop, I'm sure you'll have time to look her up."
 
-                SV "Perhaps. Perhaps it's that you have already seen Shane sexually, and now Ilyusha gets to have it be his choice. Or perhaps it's Shane not wanting to be seen with him at all."
+    return
 
-                show zzrl eyebrow
+label testpassed:
+    
+    $ pt += "pass test, " 
 
-                RL "...I feel like not wanting to be seen holding hands is kinda different from not wanting to be seen holding each other's naked dicks."
+    show zzsv surprised
 
-                SV "Mm. Well. Perhaps Ilyusha is just being petty, then, and wanting you to see what you cannot have. Or perhaps he's angling for a threesome."
+    SV "Hmm. You passed the test."
+    
+    if svetpass == 0:
+        RL "So you believe me! That I'm stuck in my own Groundhog Day!"
 
-                show zzrl surprised
+        show zzsv thoughtful
 
-                RL "No way! There's no way he would ever want to sleep with me!"
+        SV "Let's say I do. What now?"
 
-                $ svetpass = True
+        show zzrl hesitant
 
-                if svetheart >= 2:
+        RL "What now? I guess...we...figure out how to get me out?"
+
+        SV "Do you know why you're trapped? There must be something you need to fix, yes?"
+
+        show zzsv unimpressed
+
+        SV "Ah. Am I going to die?"
+
+        show zzrl surprised
+
+        RL "{i}No!{/i} What??"
+
+        show zzsv eyebrow
+
+        SV "That's a common reason for time loops, no? Someone dies, you need to save them? Not me, then--maybe someone's put out a hit on Shane? A Boston fan, perhaps--though in that case, they're more likely to put out a hit on Ilya--"
+
+        show zzrl wince
+
+        RL "Right, right, like Happy Death Day. No, nope, no one dies today, thank fuck."
+
+        show zzsv amused
+
+        SV "You did seem more relaxed than I would expect, if you were watching someone die repeatedly. But then, you are a good actress."
+
+        show zzrl hesitant_blush
+
+        RL "Thanks. I think."
+
+        show zzsv thoughtful
+
+        SV "Alright, so no deaths. Anything else particularly noteworthy or troubling? Something that should be avoided?"
+
+        show zzrl grin
+
+        RL "Not really...? I mean, the only noteworthy thing is just how many times I walk into Shane and Ilya making out. And I'm starting to wonder if that's just noteworthy for me, and not them."
+
+        RL "And I guess I should avoid it, if only for Shane's peace of mind, but still, that seems..."
+
+        show zzsv amused
+
+        SV "Not quite the stuff time loop movies are made of, no."
+
+        SV "Really, if that's the most troubling thing that happens, why bother breaking the loop? You don't want to take advantage of this relaxing, neverending lakeside holiday?"
+
+        show zzrl grin
+
+        RL "Oh my god, I could. I should! Maybe the universe is telling me to chill out and take a break. Maybe it's time to finally learn a new language like I keep saying I would."
+
+        show zzsv flirty
+
+        SV "Well, if you're looking for a Russian tutor, I'm right here."
+
+        show zzrl smile_blush
+
+        RL "You know what, I might just take you up on it, even if you won't remember making the offer. Maybe I'll impress you with my Russian fluency."
+
+        SV "You're already pretty impressive, Rose Landry."
+
+        show zzrl hesitant_blush
+
+        RL "Haha, I...thanks! Now I really need to figure out this time loop so I don't break out of it by accident."               
+
+        $ svetpass += 1
+
+        if svetheart >= 2:
+
+            SV "You know, the other traditional way to break a time loop is with a kiss."
+
+            menu:
+                "Lean in...":
+                    $ pt += "kiss, "
+
+                    RL "Oh, haha, that's...that's fair! I suppose if it's traditional..."
+
+                    scene cut girls_kiss1
+                    with fade
+
+                    $ kissnow = True
+                    $ kisscount += 1
+
+                    scene bg outback
+
+                    show zzsv smile_blush at center
+                    show zzrl smile_blush
+                    with fade
+
+                    RL "Wow."
+
+                    SV "Mm. Does it feel like the time loop is broken?"
+
+                    RL "I...I have no idea. Um, I guess we just have to keep going with the rest of the day and I'll find out tomorrow...?"
+
                     show zzsv flirty
 
-                    SV "You'd be surprised. But no, I think if there's someone here who wants to sleep with you, it is not him."
+                    SV "Yes, and if it doesn't work maybe you'll have to try again."
+
+                    show zzrl grin_blush
+
+                    RL "Oh, absolutely, I'll have to--"
+
+                    jump postkiss
+
+                "Don't lean in":
+                    $ pt += "don't kiss, "
+
+                    RL "Oh! Is, um, is it? Which movie is that from?"
+
+                    show zzsv amused
+
+                    SV "Movies aren't the only stories with time loops in them, you know."
+                    
+                    SV "But if you're hoping {i}not{/i} to break out of the loop, perhaps that's best avoided."
 
                     show zzrl hesitant_blush
 
-                    RL "Oh, I...you mean..."
+                    RL "Haha, yeah, gotta have a bit more of a holiday first!"
 
-                    SV "You know, the other traditional way to break a time loop is with a kiss."
+                    show zzsv flat
 
-                    RL "Well. I suppose if it's traditional..."
+                    SV "So, what happens next?"
 
-                    jump kiss
-                
-                else:
-                    jump leaving
-            
-            else:
-                "svet: so tell me what's been going on, lemme help you with it"
+                    show zzrl hesitant
 
-                "rose: actually, you already have. i mostly wanted to convince you so i could kiss you."
+                    RL "You mean in the previous loops? Well, we'd...we'd go pick up your bags from the car and talk hockey?"
 
-                if svetheart >= 2:
-                    "svet: well, you're {i}very{/i} convincing"
+                    show zzsv smile
 
-                    jump kiss
+                    SV "Sounds great. I wouldn't want to break out of this loop either, if it were me."
 
-                else:
-                    "svet: hmm...no thanks"
-
-                    "rose: ...oh."
-
-                    jump leaving
+                    jump preleaving          
         
         else:
-            return
-            
+            jump leaving
+    
+    else:
+        "temp dialogue blah blah blah"
+
+        menu:
+            "kiss svetlana":
+                $ pt += "kiss, "
+
+                jump kiss
+
+            "don't kiss svetlana":
+                $ pt += "don't kiss, "
+                jump preleaving
+        
+        RL "Haha, now I really gotta figure out what will stop these loops so I don't do it on purpose."
+
+
+
+        show zzsv thoughtful
+
+        SV "Perhaps we're approaching this from the wrong angle. What have you tried doing differently?"
+
+        show zzrl hesitant
+
+        RL "Um, mostly just...saying different things...?"
+
+        show zzrl hesitant_blush
+
+        RL "And even then...I haven't been trying different things to get myself out, really, I've just been...trying to catch up with Shane? Trying to get Ilya to like me?"
+
+        if foodtruckkitty >= 1:
+            show zzrl wince
+
+            RL "{size=-10}...playing a bunch of Food Truck Kitty...?"
+
+            show zzsv eyebrow
+
+            SV "What's that?"
+
+            RL "It's...a mobile game...it's just silliness, I probably shouldn't have been wasting my time with it when I'm stuck in a supernatural time loop."
+
+            show zzsv amused
+
+            SV "If you ask me, being stuck in a time loop is the best time to be playing silly mobile games. When else would you have the infinite free time."
+
+            show zzrl grin
+
+            RL "Well, when you put it like that!"
+        
+        else:
+
+            SV "Unless you can loop back in time all the way to two years ago to stop yourself from dating Shane, I don't think you're getting Ilya to like you."
+
+            show zzrl resigned
+
+            RL "I suppose. Honestly, I wouldn't care so much about Ilya liking me if I didn't think it would make Shane happier if we got along."
+
+            SV "If the solution"
+
+        #######
+
+        
+        show zzrl hesitant
+
+        RL "...I guess, but what is there to fix other than myself...?"
+
+        show zzsv flirty
+
+        SV "I suppose personal growth is a common solution. Though you're confident, successful, and seem like a lovely person just as you are, so I find that unlikely."
+
+        show zzrl smile_blush
+
+        RL "Oh! That's--thanks, I mean, no one's perfect, as my dating record probably proves"
+
+        SV "Though you seem lovely just the way you are, so maybe that's not it."
+
+        ########
+
+
+        RL "I just don't understand how I keep running into Shane and Ilya...you know..."
+
+        SV "Fucking?"
+
+        RL "Hah! I was going to say making out, but mostly because I keep interrupting them before any fucking actually happens. And I'm not doing this on purpose, I swear, I just can't seem to avoid--not that I think it has to be avoided! They're--"
+
+        SV "Hot?"
+
+        show zzrl grin
+
+        RL "I was going to say they're my friends, but yes, they're also hot."
+
+        show zzrl grin
+
+        RL "Don't tell them I said that."
+
+        SV "Why not? You think they won't like it?"
+
+        RL "Oh my god, I was going to say they might die of embarrassment, or really that {i}Shane{/i} might die of embarrassment, but considering how many times I've walked in on his naked ass today..."
+
+        SV "He's still alive, it's true. As is Ilya."
+
+        RL "Ilya doesn't seem like he would care, no. If anything, he seems like...oh, well, I guess I don't know him very well, I shouldn't judge him by--"
+
+        SV "Oh, he deserves plenty of judgement, don't worry. Especially for this."
+
+        RL "Especially for...you don't mean to say he might be doing this on purpose...??"
+
+        SV "I wouldn't put it past him. He likes to show off his pretty things, and Shane is the prettiest thing he has."
+
+        show zzrl hesitant
+
+        RL "Oh, that's... You don't think Ilya really thinks of Shane like that, do you...?"
+
+        show zzsv smile
+
+        SV "Mm, no. And it sounds like you don't either. I'm glad."
+
+        show zzsv thoughtful
+
+        SV "He can't stop himself from pressing on a bruise, sometimes." ## check appropriate use of nickname
+
+        RL "Trying to prove he's a big strong man and not scared of pain? My brothers used to get like that too."
+
+        SV "Hah, yes, you understand. The more it hurts, the more they have to prove."
+
+        RL "And the bruise is...me finding Shane sexually attractive...?"
+
+        SV "Perhaps. Perhaps it's that you have already seen Shane sexually, and now Ilyusha gets to have it be his choice. Or perhaps it's Shane not wanting to be seen with him at all."
+
+        show zzrl eyebrow
+
+        RL "...I feel like not wanting to be seen holding hands is kinda different from not wanting to be seen holding each other's naked dicks."
+
+        SV "Mm. Well. Perhaps Ilyusha is just being petty, then, and wanting you to see what you cannot have. Or perhaps he's angling for a threesome."
+
+        show zzrl surprised
+
+        RL "No way! There's no way he would ever want to sleep with me!"
+
+        #######
+
+        "svet: so tell me what's been going on, lemme help you with it"
+
+        "rose: actually, you already have. i mostly wanted to convince you so i could kiss you."
+
+        if svetheart >= 2:
+            "svet: well, you're {i}very{/i} convincing"
+
+            jump kiss
+
+        else:
+            "svet: hmm...no thanks"
+
+            "rose: ...oh."
+
+            jump leaving
+    
+
 label kiss:
     menu:
         "kiss svetlana":
 
-            scene cut roselana
+            scene cut girls_kiss1
             with fade
 
             $ kissnow = True
@@ -3598,6 +4164,125 @@ label kiss:
 
         "don't kiss svetlana":
             "your loss, rose"
+    
+    jump leaving
+
+label postkiss:
+
+    show zzsh frown at center
+    show zzir flat at midright
+    with easeinright
+
+    show zzsv at midleft
+    with ease
+
+    SH "Oh, good, we found you guys. You weren't inside, and you weren't replying to your texts--"
+
+    show zzrl wince_blush
+
+    RL "Sorry Shane, we were, um, distracted."
+
+    show zzir smirk
+
+    IR "Thought you were both eaten by Canadian wolf birds."
+
+    show zzsh eyeroll
+
+    SH "Loons don't eat people, Ilya. Actually, even wolves don't eat people."
+
+    IR "And how do you know that? You know many people that meet Canadian wolves?"
+
+    show zzsh wry
+
+    SH "No--"
+
+    IR "Because they all get eaten!"
+
+    show zzsv amused
+
+    SV "Sorry if you were worried, but I think I still have Ilya muted from the last time he was being annoying at me."
+
+    show zzsh smirk
+
+    SH "If you mute Ilya every time he's annoying, he must be muted on your phone all the time."
+
+    SV "He is. Though I do unmute him when he buys me an appropriate apology present."
+
+    show zzir eyeroll
+
+    IR "Hah, you unmute me when you want to bitch about your clients or gossip about people we know. Which is also all the time."
+
+    show zzsv flat
+
+    SV "Anyway, you should give me your number, Shane. Next time you can text me directly. I'm sure you won't make me want to mute you."
+
+    show zzsh hesitant
+
+    SH "Uh...sure...?"
+
+    SV "Good. Now you, Rose, you should also give me your number."
+
+    show zzir annoyed
+
+    IR "Why do you want Rose Landry's number? There is no reason for you two to text after today."
+
+    if kisscount == 1:
+        show zzrl smile_blush
+
+        RL "Oh, sure! Here's my number--"
+
+        show zzrl wince
+
+        RL "Oh shit, is that the time? I gotta go, my flight's in three hours."
+
+    else:
+        show zzrl smile_blush
+
+        RL "Sure, here's my number. Hope I {i}can{/i} text you after today."
+
+        if freedom == 3:
+
+            SV "Mm, I have a good feeling about it."
+
+            IR "I do {i}not{/i} have a good feeling about it."
+
+            SH "{size=-10}Shut up, Rozanov. They're having a moment."
+
+            IR "{i}I know.{/i}"
+        
+        RL "Anyway, I gotta go, I have a flight to catch."
+    
+    SH "Oh, yeah. Hey, let me walk you to your car?"
+
+    jump walkout
+
+label preleaving:
+
+    scene bg dining
+
+    show zzsv smile at center
+    show zzrl smile
+    with fade
+
+    if outside == 1:
+        RL "--and I couldn't believe they came back in the third after being down three! And then won in OT!"
+
+        SV "I'm not usually a fan of Edmonton, but even I have to admit that was--" ## check hockey
+    
+    elif outside == 2: ## check more hockey!!
+        RL "some other hockey dialogue here"
+
+        SV "sorry someone else is gonna write this"
+    
+    elif outside == 3:
+        RL "still more hockey chitchat"
+
+        SV "still leaving this for someone else to write lol"
+    
+    else:
+        RL "hockey hockey hockey"
+
+        SV "more hockey more hockey"
     
     jump leaving
 
@@ -3737,7 +4422,7 @@ label leaving:
 
     show zzsh smile
     
-    SH "Anyway, Rose, I'll walk you to your car, okay?"
+    SH "Anyway, Rose, I'll walk you to your car?"
 
     jump walkout
 
@@ -3892,19 +4577,102 @@ label walkout:
     
     else:
 
-        "rose: oh babe if you only knew how much of you i've been seeing and seeing and seeing..."
+        show zzrl grin
 
-        "shane: huh??"
+        RL "That's okay, I actually saw a whole lot of {i}you.{/i} And Ilya. If you know what I mean."
 
-        if svetpass == False:
-            "rose: nvm. you know what, this has been a nice holiday, i wouldn't be mad about doing it all again. and i'm happy i got to see you! tho maybe i got to see too much of you lol"
+        if freedom == 3: ## come back to this when we figure out the arc
+            show zzsh hesitant
 
-            "shane: ...If you did it all again, I wish you'd see less of me, actually."
+            SH "You...did?"
 
-            "rose: ...wait a second..."
+            show zzrl surprised
+
+            RL "Yeah, I...huh."
+
+            show zzrl thoughtful
+
+            RL "Maybe I didn't, actually. I didn't actually see much of you guys today, did I?"
+
+            show zzsh frown
+
+            SH "No, and I really am sorry about that--"
+
+            show zzrl smile
+
+            RL "Hey, no, babe it's fine! This is still one of the nicest holidays I've had in a while."
+
+            show zzrl hesitant
+
+            RL "And...and if tomorrow I'm back in LA--not that I'm trying to jinx it or anything! But if I am, we can both do better about trying to stay in touch, right?"
+
+            show zzsh hesitant
+
+            SH "{i}If{/i} you're back in LA...?"
+
+            show zzsh smile_blush
+
+            SH "But yeah, let's be better about it. It really was nice having you around, and...and getting to be with Ilya in front of you."
+
+            show zzrl grin
+
+            RL "Oh, I know you totally enjoy getting to be with Ilya in front of people. Even if you didn't get to as much, this time."
+
+            show zzrl smile
+
+            RL "Okay, I really gotta go. Love ya', talk to you soon, yeah?"
+
+            show zzsh smile
+
+            SH "Yeah. Thanks for being here, Rose, talk to you soon."
+
+            jump end
         
         else:
-            "rose: nvm don't worry your pretty head about it"
+            show zzsh embarrassed
+
+            SH "Oh my god, I'm so sorry, I wasn't--"
+
+            show zzrl smile
+
+            RL "Hey, no, babe it's fine! This is still one of the nicest holidays I've had in a while."
+            
+            RL "I'm not even mad about having to do it all over again."
+
+            show zzsh hesitant
+
+            SH "...do it all over again...?"
+
+            RL "Oh, I mean, I'm happy I got to see whatever amount of you I got to see, and I'd be happy to do it all again."
+
+            show zzsh wry
+
+            SH "If you did do it all again, I wish you got to see less of me, actually."
+
+            scene bg ctdoor
+            show zzsh wry
+            show zzrl smile
+            with pixellate
+
+            show zzrl surprised
+
+            RL "Whoa! What was that?"
+
+            show zzsh hesitant
+
+            SH "What...? I mean, I said, if you did it all again--"
+
+            show zzrl thoughtful
+
+            RL "...wait a second..."
+
+            SH "..."
+            
+            SH "What are we waiting for...?"
+
+            RL "Hmm..."
+
+            RL "Never mind! Bye Shane! {size=-10}For now..."
 
     ##play audio
     "cardoor.mp3"
@@ -3936,6 +4704,11 @@ label airportout:
         RL "...I should really try not taking an Ambien, this time."
 
         RL "Who cares about being fresh for the shoot tomorrow, as long as I manage to be {i}at{/i} the shoot tomorrow"
+    
+    else: ## should I add a few more loops of dialogue...?
+        show zzrl resigned
+
+        RL "And it's probably gonna be the same day again tomorrow."
 
     scene black
     with fade
@@ -3959,6 +4732,8 @@ label end:
     
     else:
         "roselana are not together but that's on you, bud"
+    
+    centered "you did: [pt]"
     
     "this ends the game!"
 
