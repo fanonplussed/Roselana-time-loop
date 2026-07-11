@@ -32,15 +32,13 @@ default shane_room2 = False
 default shane_room3 = False
 
 default tealoop = 0
+default shanetea = False
 default svet_fact1 = False ## russian nice to meet you
 default svet_fact2 = False ## svetlana likes wind-up animal toys
 
-default french = 0
-default hockey = 0
-default time = 1
-
 default clearemail = 0
 default foodtruckkitty = 0
+default russian = 0
 
 default svet_tour = 0
 default svet_room1 = False ## the rose noticing sveta's style but also because she was concerned-friend about shane dating ilya, and sveta saying 'me too'

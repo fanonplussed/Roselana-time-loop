@@ -1652,7 +1652,7 @@ screen playtest:
         text "no. shane housetours done? [tourloop]"
 
         text "chat about Svet with Hollanov? [tealoop]"
-        text "learned some cute Svet fact? [svet_fact1]"
+        text "learned a bit of russian? [svet_fact1]"
 
         text "learned another Svet fact? [svet_fact2]"
         text "know Svet's room1 likes? [svet_room1]"
