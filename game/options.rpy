@@ -1,5 +1,23 @@
 ## HOME BREW STUFF HERE #################################################
 
+## images #####
+
+image nvl = "gui/nvl.png" ## code red this is purely for that one ambien instruction for players you can make that less ugly and remove this
+
+image credits:
+    "credits2.png" with Dissolve(0.5)
+    pause 1.0
+    "credits1.png" with Dissolve(0.5)
+    pause 0.3
+    repeat
+
+image credits4:
+    "credits4a.png" with Dissolve(0.5)
+    pause 1.0
+    "credits4b.png" with Dissolve(0.5)
+    pause 0.3
+    repeat
+
 ## characters #####
 
 define RL = Character("Rose", color="#f54dac")
@@ -32,22 +50,25 @@ default shane_room2 = False
 default shane_room3 = False
 
 default tealoop = 0
-default shanetea = False
-default svet_fact1 = False ## russian nice to meet you
-default svet_fact2 = False ## svetlana likes wind-up animal toys
-
-default clearemail = 0
-default foodtruckkitty = 0
-default russian = 0
+default svetatea = False ## if you played teatime.sveta and learned she maybe likes wind up animal toys
 
 default svet_tour = 0
 default svet_room1 = False ## the rose noticing sveta's style but also because she was concerned-friend about shane dating ilya, and sveta saying 'me too'
-default svet_room2 = False ## reference to rabbit in her luggage lol
 default svet_room3 = False ## sveta feeling Some Kind Of Way about ilya stashing all his trophies away in shane's cottage's guest room
+
+default russian = 0
+default aloneloop = 0
+default clearemail = 0
+default clearemail2 = 0
+default clearemail3 = 0 # this is for negative numbers
+default foodtruckkitty = 0
+default foodtruckkitty2 = 0
+default foodtruckkitty3 = 0 # this is for negative numbers
 
 default room1blind = False
 default room2blind = False
 default room3blind = False
+default blindspass = 0
 
 default outside = 0
 default inside = 0
@@ -57,18 +78,27 @@ default kisscount = 0
 # flags temp #####
 
 default freedom = 0
+default svetheart = 0
+default ilyaheart = 0 ## not used yet
 
 default giftbought = ""
 default papped = False
-default svetheart = 0
+default russianpass = False
 default convincesvet = 0
+default blindsnow = False
 default kissnow = False
+default svet_room2 = False ## reference to rabbit in her luggage lol
+
+default shanemove = False # if you stopped housetour and talked about shane moving to the Cens as a free agent
+default shanetea = False # if you played teatime.shane and learned he came out to his team
+default shanesveta = False # if you stopped housetour and talked about shane asking sveta if ilya is happy
 
 default random = 0
+default takepill = False # code red delete if not using the take pill mechanic
 
 ## playtest flags ###
 
-default pt = ""
+default pt = "" # to track what players have done
 
 
 ## positions and transforms ######
@@ -79,8 +109,13 @@ transform midleft:
 
 transform midright:
     yalign 1.0
-    xcenter 0.75
+    xcenter 0.72
 
+transform blip():
+    alpha 0.0
+    linear 0.4 alpha 1.0
+    pause 1.2
+    linear 0.4 alpha 0.0
 
 
 ###############################################################################33
@@ -103,7 +138,7 @@ define gui.show_name = True
 
 ## The version of the game.
 
-define config.version = "1.2"
+define config.version = "1.3"
 
 
 ## Text that is placed on the game's about screen. Place the text between the

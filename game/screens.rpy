@@ -1,4 +1,4 @@
-﻿################################################################################
+################################################################################
 ## Initialization
 ################################################################################
 
@@ -1629,48 +1629,77 @@ screen playtest:
 
     add "gui/game_menu.png"
 
-    grid 2 15:
+    grid 3 15:
         textbutton "close playtest screen" action Hide()
+        null
         null
 
         text "number of loops: [loop]"
         text "freedom!! [freedom]"
-
-        text "how much svet likes you? [svetheart]"
-        text "knock cockblocked before? [knockpass]"
-
         text "been to gift shop? [giftshopvisit]"
-        text "bought gift? [giftbought]"
 
-        text "been papped? [papped]"
         text "pap count: [papcount]"
-
         text "knocked before? [knock]"
-        text "no. loops rang doorbell: [doorbell]"
+        text "loops rang doorbell: [doorbell]"
 
-        text "no. loops barged in: [bargecount]"
-        text "no. shane housetours done? [tourloop]"
+        text "loops barged in: [bargecount]"
+        text "knocked pass? [knockpass]"
+        text "Shane housetours? [tourloop]"
 
-        text "chat about Svet with Hollanov? [tealoop]"
-        text "learned a bit of russian? [svet_fact1]"
+        text "stopped Shane tours? [notourloop]"
+        text "shane_room1? [shane_room1]"
+        text "shane_room2? [shane_room2]"
 
-        text "learned another Svet fact? [svet_fact2]"
-        text "know Svet's room1 likes? [svet_room1]"
+        text "shane_room3? [shane_room3]"
+        text "tealoop? [tealoop]"
+        text "played teatime.sveta? [svetatea]"
 
-        text "know Svet's room2 likes? [svet_room2]"
-        text "know Svet's room3 likes? [svet_room3]"
+        text "Sveta house tours? [svet_tour]"
+        text "svet_room1? [svet_room1]"
+        text "svet_room3? [svet_room3]"
 
-        text "room1 know how blinds? [room1blind]"
-        text "room2 know how blinds? [room2blind]"
+        text "aloneloop? [aloneloop]"
+        text "russian level? [russian]"
+        text "cleared emails? [clearemail + clearemail2]"
 
-        text "room3 know how blinds? [room3blind]"
-        text "does svet like you? [svetheart]"
+        text "played game? [foodtruckkitty + foodtruckkitty2]"
+        text "room1blind? [room1blind]"
+        text "room2blind? [room2blind]"
 
-        text "no of times outside? [outside]"
-        text "convinced svet of timeloop before? [svetpass]"
+        text "room3blind? [room3blind]"
+        text "blindspass? [blindspass]"
+        text "times outside? [outside]"
 
-        text "kissed svet before? [kisscount]"
-        text "kissed svet today? [kissnow]"
+        text "times inside? [inside]"
+        text "convinced svet? [svetpass]"
+        text "no of kisses? [kisscount]"
 
+        text "sveta likes you? [svetheart]"
+        text "giftbought? [giftbought]"
+        text "papped? [papped]"
 
+        text "russianpass? [russianpass]"
+        text "convincesvet? [convincesvet]"
+        text "blindsnow? [blindsnow]"
+
+        text "kissnow? [kissnow]"
+        text "svet_room2 rabbit joke? [svet_room2]"
+        text "shanemove (housetour)? [shanemove]"
+
+        text "shanetea (teatime)? [shanetea]"
+        text "shanesveta (housetour)? [shanesveta]"
+        text "random? [random]"
+
+screen pill(): ## code red turns out you might not need this after all, delete if that is the case 
+
+    modal False
+
+    if takepill == True:
+        imagebutton auto "pill_on_%s.png":
+            focus_mask True
+            action SetVariable("takepill", False)
+    else:
+        imagebutton auto "pill_off_%s.png":
+            focus_mask True
+            action SetVariable("takepill", True)
             
