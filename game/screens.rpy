@@ -1689,17 +1689,3 @@ screen playtest:
         text "shanetea (teatime)? [shanetea]"
         text "shanesveta (housetour)? [shanesveta]"
         text "random? [random]"
-
-screen pill(): ## code red turns out you might not need this after all, delete if that is the case 
-
-    modal False
-
-    if takepill == True:
-        imagebutton auto "pill_on_%s.png":
-            focus_mask True
-            action SetVariable("takepill", False)
-    else:
-        imagebutton auto "pill_off_%s.png":
-            focus_mask True
-            action SetVariable("takepill", True)
-            

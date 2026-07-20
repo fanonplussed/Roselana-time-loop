@@ -11,10 +11,24 @@ image credits:
     pause 0.3
     repeat
 
+image credits3:
+    "credits3a.png" with Dissolve(0.5)
+    pause 1.0
+    "credits3b.png" with Dissolve(0.5)
+    pause 0.3
+    repeat
+
 image credits4:
     "credits4a.png" with Dissolve(0.5)
     pause 1.0
     "credits4b.png" with Dissolve(0.5)
+    pause 0.3
+    repeat
+
+image credits5:
+    "credits5a.png" with Dissolve(0.5)
+    pause 1.0
+    "credits5b.png" with Dissolve(0.5)
     pause 0.3
     repeat
 
@@ -75,6 +89,8 @@ default inside = 0
 default svetpass = 0
 default kisscount = 0
 
+default yayrussian = False
+
 # flags temp #####
 
 default freedom = 0
@@ -87,18 +103,14 @@ default russianpass = False
 default convincesvet = 0
 default blindsnow = False
 default kissnow = False
-default svet_room2 = False ## reference to rabbit in her luggage lol
+default svet_room2 = False # reference to rabbit in her luggage lol
 
 default shanemove = False # if you stopped housetour and talked about shane moving to the Cens as a free agent
 default shanetea = False # if you played teatime.shane and learned he came out to his team
 default shanesveta = False # if you stopped housetour and talked about shane asking sveta if ilya is happy
 
 default random = 0
-default takepill = False # code red delete if not using the take pill mechanic
-
-## playtest flags ###
-
-default pt = "" # to track what players have done
+default pt = "" # playtest tracker
 
 
 ## positions and transforms ######
@@ -113,8 +125,8 @@ transform midright:
 
 transform blip():
     alpha 0.0
-    linear 0.4 alpha 1.0
-    pause 1.2
+    linear 0.4 alpha 0.7
+    pause 0.7
     linear 0.4 alpha 0.0
 
 
