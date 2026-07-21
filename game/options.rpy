@@ -95,7 +95,7 @@ default yayrussian = False
 
 default freedom = 0
 default svetheart = 0
-default ilyaheart = 0 ## not used yet
+default ilyaheart = 0
 
 default giftbought = ""
 default papped = False

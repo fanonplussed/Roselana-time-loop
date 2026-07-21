@@ -187,11 +187,12 @@ label start_real: # this needs pulling out because of playtesting reasons
 
     # these temp variables reset with every loop
     $ freedom = 0
+    $ svetheart = 0
+    $ ilyaheart = 0
 
     $ giftbought = ""
     $ papped = False
     $ russianpass = False
-    $ svetheart = 0
     $ convincesvet = 0
     $ blindsnow = False
     $ kissnow = False
@@ -443,7 +444,7 @@ label giftshop:
 
             "You pick up a 50 piece box of Canadian Collection Chocolate Classics."
 
-        "Wind-up toy otter": ## TBD you never actually included this
+        "Wind-up toy otter":
 
             $ giftbought = "otter"
 
@@ -454,10 +455,10 @@ label giftshop:
 
             "You pick up an airhorn. It looks loud."
         
-        "An Ilya Rozanov Centaurs jersey" if svetpass >= 3: ## TBD you never actually included this
+        "An Ilya Rozanov Centaurs jersey" if svetpass >= 3:
             $ giftbought = "jersey"
 
-            "It took some digging, but there was indeed an Ilya Rozanov Centaurs jersey in the sports apparel rack. Seems like hockey's just not that popular here."
+            "It took some digging, but you found an Ilya Rozanov Centaurs jersey in the sports apparel rack. Seems like hockey's just not that popular here."
 
     menu:
         "Keep browsing?"
@@ -1307,34 +1308,88 @@ label entrancepass:
                 jump paptalk
 
             RL "Maybe Ilya's right, there's no need. Let's sit, have a drink, get to know each other!"
+
+            if giftbought != "":
+                menu:
+                    "Give them the present you bought at the gift shop":
+                        if giftbought == "vodka":
             
-            if giftbought == "vodka": ## rejig this once the gift stuff is finalised
+                            RL "Oh, I bought vodka for you guys?"
+
+                            show zzir eyeroll 
+                            $ ilyaheart -= 1
+
+                            IR "Tsk, is this the cheap stuff from the airport gift shop? Would rather drink well water."
+
+                            $ giftbought = ""
+
+                            jump teatime
+
+                        elif giftbought == "vodkaplus":
+
+                            RL "Oh, I bought vodka for you guys? This is the good stuff, right?"
+
+                            show zzir eyeroll 
+
+                            IR "Tsk, expensive vodka is not always good vodka. Clearly money cannot buy good taste."
+
+                            $ giftbought = ""
+
+                            jump teatime
+                        
+                        elif giftbought == "jersey":
+                            $ ilyaheart += 1
+
+                            RL "Oh, and before I forget, I got this at the airport!"
+
+                            show zzsh hesitant
+
+                            SH "..you want to give me an Ilya Rozanov jersey?"
+
+                            show zzir frown
+
+                            IR "Shane already has one."
+
+                            show zzrl grin
+
+                            RL "Yeah, well, you never know if you might need spares, am I right?"
+
+                            show zzsh embarrassed
+                            show zzir smirk
+
+                            SH "Uh...why...why would I need spares—"
+
+                            SH "Never mind, thanks Rose. Let's, um, go sit down."
+
+                            $ giftbought = ""
+
+                            jump teatime
+                        
+                        else:
+                            RL "Oh, and before I forget, I got this at the airport!"
+
+                            show zzsh hesitant
+
+                            SH "Um...thanks...? I'll just put that...somewhere..."
+
+                            $ giftbought = ""
+
+                            jump teatime
+
+                    "Give them the ginger ale you brought from home":
+                        $ giftbought = ""
+
+            RL "Oh, and I brought ginger ale! Shane, you like Vernors, right?"
+
+            SH "Yeah, thanks."
+
+            show zzir annoyed
+            $ ilyaheart -= 1
+
+            IR "He likes Seagram's better. And we have it here already."
             
-                RL "Oh, I bought vodka for you guys?"
-
-                show zzir eyeroll 
-                $ ilyaheart -= 1
-
-                IR "Tsk, is this the cheap stuff from the airport gift shop? Would rather drink well water."
-
-            elif giftbought == "vodkaplus":
-
-                RL "Oh, I bought vodka for you guys? This is the good stuff, right?"
-
-                show zzir eyeroll 
-
-                IR "Tsk, expensive vodka is not always good vodka. Clearly money cannot buy good taste."
-
-            else:
-
-                RL "Oh, I brought wine!"
-
-                show zzir eyeroll
-
-                IR "Think I will need something stronger than wine for this..."
-
             jump teatime
-
+       
         "Take a nap" if loop >= 3:
             show zzrl hesitant
 
@@ -1401,6 +1456,8 @@ label teatime:
     jump svet_entrance
 
 label teatime.ilya:
+    $ ilyaheart -= 1
+
     show zzrl hesitant
 
     RL "So, um, Ilya, how are things? Must be exciting being on a new team this year, huh?"
@@ -1525,6 +1582,7 @@ label teatime.shane:
     return
 
 label teatime.sveta:
+    $ ilyaheart -= 1
     $ svetatea = True
 
     show zzrl smile
@@ -1680,7 +1738,7 @@ label housetour:
 
             SH "I...yeah. Thanks, Rose. I love it too."
 
-            if outside >= 3:
+            if outside >= 3 and room1blind == False:
 
                 menu:
                     "Ask Shane about curtains":
@@ -1732,7 +1790,7 @@ label housetour:
 
             SH "Oh yeah, it's, um, post-modern. And no, I didn't pick it, the interior designer did." ## post-modern??
 
-            RL "Oh thank God. I didn't wanna say anthing, especially when we were just talking about you making this place to your exact specifications, but Shane! The decor in this room! Really??"
+            RL "Oh thank God. I didn't wanna say anything, especially when we were just talking about you making this place to your exact specifications, but Shane! The decor in this room! Really??"
 
             show zzsh wry
 
@@ -1760,23 +1818,29 @@ label housetour:
                     show zzrl flat
                     with fade
 
-                    RL "Okay, we've gone from way too much going on to way too little. This room just has a bed...? Excuse me, what happened to the TV and bathroom I was promised?"
+                    if shane_room2 == False:
+                        RL "Okay, we've gone from way too much going on to way too little. This room just has a bed...? Excuse me, what happened to the TV and bathroom I was promised?"
 
-                    SH "Oh, it's all hidden. You wave your hand over this panel here—" ## add a {nw} after voice is added...?
+                        SH "Oh, it's all hidden. You wave your hand over this panel here—" ## add a {nw} after voice is added...?
                     
-                    ##play sound
-                    "switch.mp3"
+                        ##play sound
+                        "switch.mp3"
 
-                    SH "—and the TV slides down from the ceiling. And you wave your hand {i}here—{/i}"
+                        SH "—and the TV slides down from the ceiling. And you wave your hand {i}here—{/i}"
 
-                    ##play sound
-                    "switch.mp3"
+                        ##play sound
+                        "switch.mp3"
 
-                    RL "Whoa! I didn't know there was a door there! Oh, that's where the bathroom is!"
+                        RL "Whoa! I didn't know there was a door there! Oh, that's where the bathroom is!"
+                   
+                        SH "Yeah, everything's hidden because of the minimalist aesthetic, apparently. The panel for the bathroom lights and floor heating is all hidden near the door here too."
+                    
+                    else:
+                        RL "Ah, yes, the completely empty room."
 
-                    SH "Yeah, everything's hidden because of the minimalist aesthetic, apparently. The panel for the bathroom lights and floor heating is all hidden near the door here too."
+                        SH "It's not empty, it's just minimalist. Everything's hidden away."
 
-                    if outside >= 3: ## this used to be svetpass >= 1 but i think that just slows the game down
+                    if outside >= 3 and room2blind == False:
 
                         menu:
                             "Ask Shane about curtains":
@@ -1814,12 +1878,20 @@ label housetour:
 
                             "Carry on the house tour":
                                 pass
+                    
+                    if shane_room2 == False:
+                        RL "Did you have a different interior designer for each room...? Did you fire the last guy after he tried to plant a bomb on your wall?"
 
-                    RL "Did you have a different interior designer for each room...? Did you fire the last guy after he tried to plant a bomb on your wall?"
+                        show zzsh embarrassed
 
-                    show zzsh embarrassed
+                        SH "Ah, haha, no, but. They gave me a checklist of design elements to, er, find my unique personal style or something, and I just checked everything because it all seemed fine?"
+                    
+                    else:
+                        RL "Yes, I can see that. Or rather, not see that. Very zen. Unlike the last room."
 
-                    SH "Ah, haha, no, but. They gave me a checklist of design elements to, er, find my unique personal style or something, and I just checked everything because it all seemed fine?"
+                        show zzsh embarrassed
+
+                        SH "Yeah, the interior designer gave me a checklist of design elements to, er, find my unique personal style or something, and I just checked everything because it all seemed fine?"
                     
                     SH "And it was the middle of playoffs, so I might have missed a few emails after that..."
 
@@ -1846,7 +1918,7 @@ label housetour:
 
                     SH "Yeah, I built this one for my parents. That's why there's two walk-in closets."
 
-                    if outside >= 3:
+                    if outside >= 3 and room3blind == False:
 
                         menu:
                             "Ask Shane about curtains":
@@ -1885,16 +1957,28 @@ label housetour:
 
                             "Carry on the house tour":
                                 pass
+
+                    if shane_room3 == False:
+                        RL "Don't they have their own cottage ten minutes away? Why would they need even one walk-in closet, let alone two of this...size..."
+
+                        RL "..."
+
+                        RL "Shane, why are your trophies in here? No wait, are these Ilya's...?"
+
+                        show zzsh embarrassed
+
+                        SH "Well, he doesn't really have the room where he lives, and he liked the idea of having some of them here. I was supposed to bring mine too, we were gonna renovate and have a trophy room for us both together, but we haven't had the time, so..."
                     
-                    RL "Don't they have their own cottage ten minutes away? Why would they need even one walk-in closet, let alone two of this...size..."
+                    else:
+                        RL "Nice. Lots of space for any spare clothes or trophies."
 
-                    RL "..."
+                        show zzsh frown
 
-                    RL "Shane, why are your trophies in here? No wait, are these Ilya's...?"
+                        SH "...what? How did you know we're keeping Ilya's trophies in here?"
 
-                    show zzsh embarrassed
+                        RL "Oh, just a wild guess. Empty closets always seem to just fill themselves up, am I right?"
 
-                    SH "Well, he doesn't really have the room where he lives, and he liked the idea of having some of them here. I was supposed to bring mine too, we were gonna renovate and have a trophy room for us both together, but we haven't had the time, so..."
+                        SH "...uh. If you say so."    
 
                     show zzsh flat
 
@@ -1917,6 +2001,7 @@ label housetour:
                     RL "Hey, I didn't say anything about Ilya, I just—"
 
                     $ shane_room3 = True
+                    
 
         "Stop the house tour":
             $ pt += "fake house tour, "
@@ -2382,9 +2467,9 @@ label svet_entrance:
     show zzsv flat at right
     with easeinright
 
-    IR "(Ilya's podficcer get's to choose between 'Здравствуй, здравствуй, день ненастный! Скаких пор стучишься?' and 'Привет, с каких пор стучишься?')"
+    IR "Привет, с каких пор стучишься?"
 
-    SV "(Svetlana's podficcer get's to choose between 'Стучусь к приличным людям, не к тебе.' and 'Я Jane не знаю, чтобы просто так войти.')"
+    SV "Стучусь к приличным людям"
 
     show zzir frown
 
@@ -2483,6 +2568,8 @@ label svet_entrance:
 
                 SV "Right."
 
+                show zzir annoyed
+
                 IR "Wrong. Enough, I need a drink."
             
             else:
@@ -2491,6 +2578,7 @@ label svet_entrance:
                 $ svetheart += 1
                 show sv_heart at right, blip
 
+                $ ilyaheart -= 1
                 show zzir eyeroll
 
                 IR "And I thought Shane was bad. You do not have the mouth for Russian, Rose Landry."
@@ -2527,9 +2615,39 @@ label svet_entrance:
 
             IR "Okay, enough with the bad flirting. I need a drink."
         
-        ## "TBD even more deranged convo unlock" if loop >= 4:
+        "I bought you a gift" if giftbought != "":
+            $ ilyaheart -= 1
 
-    IR "Sveta, you brought настойки, yes?"
+            RL "Hi Svetlana. I bought you a gift!"
+
+            show zzsv surprised
+
+            SV "You...did?"
+
+            if giftbought == "otter":
+                RL "Here, a little wind-up otter toy. It claps!"
+
+                if svetatea == True:
+                    RL "Ilya said—I mean, I thought you might like it."
+
+                SV "That's...cute. Thank you."
+            
+            else:
+                show zzsv eyebrow
+
+                SV "Ah, thank you for thinking of me."
+            
+            $ giftbought = ""
+            
+            show zzsv flat
+
+            SV "I'm afraid I didn't bring you a gift in return—"
+
+            show zzir eyeroll
+
+            IR "No need to feel bad, she bought this at the airport gift shop. You have more important things to bring."
+
+    IR "Sveta, you brought nastoyki, yes?"
 
     SV "It's in the car, with all my bags."
     
@@ -2648,7 +2766,7 @@ label svet_entrance:
             $ svetheart += 1
             show sv_heart at center, blip
 
-            SV "Mm, yes, you're welcome to show me to any room in this house, Rose, any room at all."
+            SV "Mm, yes, you're welcome to show me to any room in this house at all."
 
             jump housetour2
 
@@ -2852,7 +2970,7 @@ label housetour2: ## flirty loop 1 and write new rose loop 2+ where she is less 
    
     SV "Hmm, what's this room?"
 
-    if outside >=3:
+    if room1blind == True or room2blind == True or room3blind == True:
         menu:
             "Close the blinds?"
 
@@ -2861,11 +2979,7 @@ label housetour2: ## flirty loop 1 and write new rose loop 2+ where she is less 
                     jump blindsclose
 
                 else:
-                    SV "...what are you doing?"
-
-                    RL "Just looking for...nothing! Never mind!"
-
-                    SV "...okay. So...would you like to tell me about this room?"
+                    call noblinds
             
             "no":
                 pass
@@ -2965,7 +3079,7 @@ label housetour2: ## flirty loop 1 and write new rose loop 2+ where she is less 
 
             SV "This room is...well."
 
-            if outside >=3:
+            if room1blind == True or room2blind == True or room3blind == True:
                 menu:
                     "Close the blinds?"
 
@@ -2974,15 +3088,12 @@ label housetour2: ## flirty loop 1 and write new rose loop 2+ where she is less 
                             jump blindsclose
 
                         else:
-                            SV "...what are you doing?"
-
-                            RL "Just looking for...nothing! Never mind!"
-
-                            SV "...okay. So...would you like to tell me about this room?"
+                            call noblinds
                     
                     "no":
                         pass
 
+            
             if shane_room1 == True:
 
                 $ svet_room1 = True
@@ -3107,7 +3218,7 @@ label housetour2: ## flirty loop 1 and write new rose loop 2+ where she is less 
 
             SV "Ah, a more normal room."
 
-            if outside >=3:
+            if room1blind == True or room2blind == True or room3blind == True:
                 menu:
                     "Close the blinds?"
 
@@ -3116,12 +3227,8 @@ label housetour2: ## flirty loop 1 and write new rose loop 2+ where she is less 
                             jump blindsclose
 
                         else:
-                            SV "...what are you doing?"
+                            call noblinds
 
-                            RL "Just looking for...nothing! Never mind!"
-
-                            SV "...okay. So...would you like to tell me about this room?"
-                    
                     "no":
                         pass
 
@@ -3188,6 +3295,17 @@ label housetour2: ## flirty loop 1 and write new rose loop 2+ where she is less 
     $ svet_tour += 1
 
     jump dinner
+
+label noblinds:
+    SV "...what are you doing?"
+
+    RL "Just looking for...damn it, where's the remote??"
+    
+    RL "Nothing! Never mind!"
+
+    SV "...okay. So...would you like to tell me about this room?"
+
+    return
 
 label blindsclose:
 
@@ -3323,11 +3441,11 @@ label dinner:
 
     show zzsv amused
 
-    SV "Yes, shut up, Rozanov. You realise that means you left настойки and pelmeni outside."
+    SV "Yes, shut up, Rozanov. You realise that means you left nastoyki and pelmeni outside."
 
     show zzir frown
 
-    IR "Ah, fuck, настойки—"
+    IR "Ah, fuck, nastoyki—"
 
     SV "I suppose we'll just have to break into your stash here."
 
@@ -3339,7 +3457,7 @@ label dinner:
 
     show zzir eyeroll
 
-    IR "No, no, some bottles are for your papa. Some are for here. And the rest are for me to bring back."
+    IR "No, no, some bottles are for David. Some are for here. And the rest are for me to bring back."
 
     show zzsv eyebrow
 
@@ -3357,6 +3475,7 @@ label dinner:
 
     menu:
         "Defend Shane":
+            $ ilyaheart -= 1
             show zzrl grin
 
             RL "Hey, I'm sure Shane could make a great smuggler too! You guys travel so much for games, it wouldn't be too difficult to sneak away to grab a bottle or two, right?"
@@ -3370,6 +3489,7 @@ label dinner:
             SV "Oh, it's just a joke, Ilya. Anyway, even if Shane did have free time pre-game, he wouldn't be a very reliable source, would he? You two barely even meet up once a month."
 
         "Defend Shane's dad":
+            $ ilyaheart -= 1
             show zzrl smile
 
             RL "I'm sure David's getting his drinks from legitimate suppliers. Bet he's getting it from a local craft distillery and just doesn't want Ilya buying out their supplies from under his nose. That's why Miles is always hush-hush about {i}his{/i} sources."
@@ -3378,7 +3498,7 @@ label dinner:
 
             IR "Oh, so you think I would buy out David's favourite vodka from under him? What, because I'm best at stealing the puck away from under one Hollander's nose, I will do the same with vodka for another Hollander?"
 
-            show zzsv flat
+            show zzsv unimpressed
 
             SV "Oh, it's clearly a joke, Ilya. After all, if there {i}were{/i} any good craft distilleries, you'd already have sniffed them out like you did in Boston."
 
@@ -3397,7 +3517,7 @@ label dinner:
 
     show zzsv unimpressed
 
-    SV "No? You draw little Russian grandmothers to you like you draw penalties from insecure D-men. It's been a whole year in Ottawa, and you still haven't charmed a nice old lady into feeding you?" ## check hockey? draw...aggressive D-men?
+    SV "No? You draw little Russian grandmothers to you like you draw penalties from insecure D-men. A whole year you've been here, and you still haven't charmed a nice old lady into feeding you? What {i}are{/i} you doing in Ottawa?" ## check hockey? draw...aggressive D-men? also is this clearly bitchier?
 
     show zzir annoyed
 
@@ -3414,13 +3534,13 @@ label dinner:
 
                 SV "Oh, you have charmed them?"
 
-                show zzir hesitant
+                show zzir annoyed
 
-                IR "I..." ## boastful but hesitant instead of hesitant
+                IR "I am very charming, why would anyone not be charmed by me." ## is this 'boastful but insecure' vibes
 
                 show zzsh flat
 
-                SH "Yes. My parents think Ilya's charming, they like him."
+                SH "Yes, my parents do think Ilya's charming, they like him."
 
                 show zzsh frown
 
@@ -3436,8 +3556,6 @@ label dinner:
                 show zzsh frown
 
                 SH "No, I'll go get it. Sorry, it's on me for forgetting it earlier anyway—"
-
-            ## "TBD distract everyone with hockey" if loop >= 3:
 
     else:
         show zzrl hesitant
@@ -3601,6 +3719,8 @@ label indoors:
         with fade
 
         RL "...oh my God, this is so good, I wonder if going into a diabetic coma will restart this loop--"
+
+        $ giftbought = ""
     
     else:
         scene cut game
@@ -4121,7 +4241,7 @@ label outside: ## these scenes are so long oh man are they too long??
 
                 SV "Mm. What do you think happened inside?"
 
-                RL "You seemed worried about Ilya...?"
+                RL "You seemed kinda worried about Ilya."
 
                 SV "Worried? He is rich and successful and in a relationship with Shane Hollander, player with the softest hands in the MLH and also in bed. They are disgustingly in love."
 
@@ -4153,13 +4273,13 @@ label outside: ## these scenes are so long oh man are they too long??
 
                 show zzsv unimpressed
 
-                SV "At least they made they made the playoffs. Ottawa hasn't made the playoffs in more than ten years, and Ilya is good, but he cannot carry the whole team on his back."
+                SV "At least they made it to the playoffs. Ottawa hasn't made the playoffs in more than ten years, and Ilya is good, but he cannot carry the whole team on his back."
 
                 SV "And they want to do this until retirement? How many more seasons until retirement?"
 
-                show zzrl surprised
+                show zzrl hesitant
 
-                RL "Oh, they want to do this until retirement?"
+                RL "Maybe...maybe it won't have to be until retirement? Things could change. {i}They{/i} could change."
 
                 show zzsv flat
 
@@ -4169,7 +4289,15 @@ label outside: ## these scenes are so long oh man are they too long??
 
                 show zzrl hesitant
 
-                RL "Haha, fair enough. So, um, let's talk about what's going on with the LA Queens! This might just be rumours, but apparently they're planning to draft {i}both{/i} the Buck twins..."
+                RL "Haha, fair enough. Why don't we...talk about hockey?"
+
+                show zzsv smile
+                
+                SV "Yes, let's. Who's your favourite team?"
+
+                show zzrl smile
+
+                RL "I usually say it's the Metros, but lemme tell you a secret: I'm a huge fan of the LA Queens. Which is kinda cliche, but..."
 
                 jump preleaving
 
@@ -5887,7 +6015,42 @@ label end:
 
     scene credits5
 
-    RL "*humming*" ## TBD if you wanna do ilyahearts and have an ilya text here
+    if ilyaheart == 1:
+        $ pt += "ilya text1, "
+
+        ##play audio
+        "textping.mp3"
+
+        RL "Siri, play voice note." ## yeah look i've never used siri in my life someone else fix this please
+
+        IR "Rose Landry, Shane says I must tell you to fly safe, like a good host."
+
+        IR "..."
+
+        IR "Fly safe. It was good of you to come all the way for Shane today."
+
+        RL "..."
+
+        RL "{i}Huh!{/i}"
+    
+    elif ilyaheart == 0:
+        $ pt += "ilya text2, "
+
+        ##play audio
+        "textping.mp3"
+
+        RL "Siri, play voice note." ## yeah look i've never used siri in my life someone else fix this please
+
+        IR "Rose Landry, Shane says I must tell you to fly safe, like a good host. Because he thinks I am so powerful I can control the universe with my words—"
+
+        SH "{size=-8}Shut up, Rozanov, I know you know it's not a literal command—"
+
+        IR "{size=-8}Oh, and now you want me to shut up? Okay, I shut up—"
+
+        RL "..."
+    
+    else:
+        RL "*humming*" 
 
     scene bg plane
 
@@ -5923,7 +6086,7 @@ label end:
     scene black
     with fade
 
-    centered "This will be an achievement screen for the Player (actual achievement choices TBD making it maybe part of the gallery screen also TBD)! \n\n Svetlana badges: kissed Svetlana in your final loop - [kissnow], impressed her with your russian - [yayrussian] \n\n Shane badges: Shane starts thinking about moving to Ottawa - [shanemove], Shane is encouraged to talk to Svetlana about Ilya - [shanesveta], Shane thinks about how okay he is with his team's response to his coming out - [shanetea] \n\n Ilya badges: TBD  \n\n Other badges...??: How good is your Russian - [russian], how many times you've played Food Truck Kitty - [foodtruckkitty + foodtruckkitty2]"
+    centered "This will be an achievement screen for the Player (actual achievement choices TBD making it maybe part of the gallery screen also TBD)! \n\n Svetlana badges: kissed Svetlana in your final loop - [kissnow], impressed her with your russian - [yayrussian] \n\n Shane badges: Shane starts thinking about moving to Ottawa - [shanemove], Shane is encouraged to talk to Svetlana about Ilya - [shanesveta], Shane thinks about how okay he is with his team's response to his coming out - [shanetea] \n\n Ilya badges: Ilya likes you [ilyahearts] amount (you deserve a badge if this is not a negative number). \n\n Other badges...??: How good is your Russian - [russian], how many times you've played Food Truck Kitty - [foodtruckkitty + foodtruckkitty2], how much you worked on your beautiful cottage holiday - [clearemail + clearemail2]"
     
     centered "{b}please screenshot this for playtest purposes{/b} \n\n your journey: [pt] \n\n total loops: [loop]"
 
