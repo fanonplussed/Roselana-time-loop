@@ -1632,49 +1632,50 @@ screen playtest:
     grid 3 15:
         textbutton "close playtest screen" action Hide()
         null
-        null
-
         text "number of loops: [loop]"
-        text "freedom!! [freedom]"
-        text "been to gift shop? [giftshopvisit]"
 
-        text "pap count: [papcount]"
-        text "knocked before? [knock]"
-        text "loops rang doorbell: [doorbell]"
-
-        text "loops barged in: [bargecount]"
-        text "knocked pass? [knockpass]"
-        text "Shane housetours? [tourloop]"
-
-        text "stopped Shane tours? [notourloop]"
-        text "shane_room1? [shane_room1]"
-        text "shane_room2? [shane_room2]"
-
-        text "shane_room3? [shane_room3]"
-        text "tealoop? [tealoop]"
-        text "played teatime.sveta? [svetatea]"
-
-        text "Sveta house tours? [svet_tour]"
-        text "svet_room1? [svet_room1]"
-        text "svet_room3? [svet_room3]"
-
-        text "aloneloop? [aloneloop]"
-        text "russian level? [russian]"
-        text "cleared emails? [clearemail + clearemail2]"
-
-        text "played game? [foodtruckkitty + foodtruckkitty2]"
-        text "room1blind? [room1blind]"
-        text "room2blind? [room2blind]"
-
-        text "room3blind? [room3blind]"
-        text "blindspass? [blindspass]"
-        text "times outside? [outside]"
-
-        text "times inside? [inside]"
-        text "convinced svet? [svetpass]"
-        text "no of kisses? [kisscount]"
 
         text "sveta likes you? [svetheart]"
+        text "ilya likes you? [ilyaheart]"
+        text "freedom!! [freedom]"
+
+        text "been to gift shop? [giftshopvisit]"
+        text "pap count: [papcount]"
+        text "knocked before? [knock]"
+
+        text "loops rang doorbell: [doorbell]"
+        text "loops barged in: [bargecount]"
+        text "knocked pass? [knockpass]"
+
+        text "Shane housetours? [tourloop]"
+        text "stopped Shane tours? [notourloop]"
+        text "shane_room1? [shane_room1]"
+
+        text "shane_room2? [shane_room2]"
+        text "shane_room3? [shane_room3]"
+        text "tealoop? [tealoop]"
+
+        text "played teatime.sveta? [svetatea]"
+        text "Sveta house tours? [svet_tour]"
+        text "svet_room1? [svet_room1]"
+
+        text "svet_room3? [svet_room3]"
+        text "aloneloop? [aloneloop]"
+        text "russian level? [russian]"
+
+        text "cleared emails? [clearemail + clearemail2]"
+        text "played game? [foodtruckkitty + foodtruckkitty2]"
+        text "room1blind? [room1blind]"
+
+        text "room2blind? [room2blind]"
+        text "room3blind? [room3blind]"
+        text "blindspass? [blindspass]"
+
+        text "times outside? [outside]"
+        text "times inside? [inside]"
+        text "convinced svet? [svetpass]"
+
+        text "no of kisses? [kisscount]"
         text "giftbought? [giftbought]"
         text "papped? [papped]"
 

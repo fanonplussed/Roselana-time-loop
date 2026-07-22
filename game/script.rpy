@@ -1120,7 +1120,7 @@ label entrancepass:
             "{i}Maybe it's okay to zone out a bit. Or just take a nap—you do have an Ambien.{/i}"
             
             show nvl
-            centered "Hit 'tab' on your keyboard or click the 'Skip' button below to fast-forward through any dialogue you've seen. Or choose to take a nap, if you're given the option, to restart the loop."
+            centered "Hit 'tab' on your keyboard or click the 'Skip' button below to fast-forward through any dialogue you've seen (you can go back to previous lines by scrolling up with your mouse, or with the 'Back' button below). Or choose to take a nap, if you're given the option, to restart the loop."
             hide nvl
 
         RL "But hey, it's not so bad. Lots of worse places to be, lots of worse people to see."
@@ -1379,14 +1379,14 @@ label entrancepass:
                     "Give them the ginger ale you brought from home":
                         $ giftbought = ""
 
-            RL "Oh, and I brought ginger ale! Shane, you like Vernors, right?"
+            RL "Oh, and I brought ginger ale! Shane, you like Vernors, right?" ## canadian or alcohol check
 
             SH "Yeah, thanks."
 
             show zzir annoyed
             $ ilyaheart -= 1
 
-            IR "He likes Seagram's better. And we have it here already."
+            IR "He likes Seagram's better. And we have it here already." ## canadian or alcohol check
             
             jump teatime
        
@@ -2303,6 +2303,8 @@ label housetour:
                             SH "Rose—"
 
                             RL "We should go! And let her in!"
+
+                            jump svet_entrance
                         
                         else:
 
@@ -2384,7 +2386,7 @@ label paptalk:
 
         RL "Alright. I could...get Shane to drive me out in one of his—"
 
-        scene cut boys_inside2 ## you could have a different cut scene for this
+        scene cut boys_inside2 
         with fade
 
         RL "..."
@@ -2400,7 +2402,7 @@ label paptalk:
 
         RL "No, no, we're not getting back together, we're still just friends. I should have known better, I fucked up and got spotted in public—"
 
-        scene cut boys_inside2 ## you could have a different cut scene for this see above
+        scene cut boys_inside2
         with fade
 
         RL "..."
@@ -2835,7 +2837,7 @@ label chillalone:
 
         RL "...right, what now?" ## come back to this
 
-    menu: ## maybe cut some of these if no one ever gets here
+    menu:
         "Do work":
             $ pt += "work alone, "
             if clearemail == 0:
@@ -3449,7 +3451,7 @@ label dinner:
 
     SV "I suppose we'll just have to break into your stash here."
 
-    IR "I don't have a stash here, Sveta, that is why I asked you to bring thirty bottles." ## check units? is this a reasonable too many or too few?
+    IR "I don't have a stash here, Sveta, that is why I asked you to bring thirty bottles."
 
     show zzsh frown
 
@@ -4454,7 +4456,7 @@ label outside: ## these scenes are so long oh man are they too long??
 
                         SV "I mean I know Rose Landry, box office darling, the girl everyone wishes was next door. But I don't really know Rose, who I'm meeting today for the first time."
 
-                        if svetheart >= 4: ## you may need to change this if you add more svethearts esp gift option
+                        if svetheart >= 4:
 
                             show zzsv thoughtful
 
@@ -5528,8 +5530,6 @@ label leaving:
 
     show zzsv amused
 
-    ## fix the following if only sveta picks up bags if rose was chilling alone
-
     SV "You two were busy, so we decided to help ourselves."
 
     show zzsh embarrassed
@@ -6086,9 +6086,9 @@ label end:
     scene black
     with fade
 
-    centered "This will be an achievement screen for the Player (actual achievement choices TBD making it maybe part of the gallery screen also TBD)! \n\n Svetlana badges: kissed Svetlana in your final loop - [kissnow], impressed her with your russian - [yayrussian] \n\n Shane badges: Shane starts thinking about moving to Ottawa - [shanemove], Shane is encouraged to talk to Svetlana about Ilya - [shanesveta], Shane thinks about how okay he is with his team's response to his coming out - [shanetea] \n\n Ilya badges: Ilya likes you [ilyahearts] amount (you deserve a badge if this is not a negative number). \n\n Other badges...??: How good is your Russian - [russian], how many times you've played Food Truck Kitty - [foodtruckkitty + foodtruckkitty2], how much you worked on your beautiful cottage holiday - [clearemail + clearemail2]"
+    centered "{b}please screenshot this for playtest purposes{/b} \n\n Draft achievement screen (TBD actual achievement choices and making it maybe part of the gallery screen)! \n\n Svetlana badges: kissed Svetlana in your final loop - [kissnow], impressed her with your russian - [yayrussian] \n\n Shane badges: Shane starts thinking about moving to Ottawa - [shanemove], Shane is encouraged to talk to Svetlana about Ilya - [shanesveta], Shane thinks about how okay he is with his team's response to his coming out - [shanetea] \n\n Ilya badges: Ilya likes you [ilyaheart] amount (you deserve a badge if this is not a negative number). \n\n Other badges...??: How good is your Russian - [russian], how many times you've played Food Truck Kitty - [foodtruckkitty + foodtruckkitty2], how much you worked on your beautiful cottage holiday - [clearemail + clearemail2]"
     
-    centered "{b}please screenshot this for playtest purposes{/b} \n\n your journey: [pt] \n\n total loops: [loop]"
+    centered "{b}please screenshot this for playtest purposes also{/b} \n\n your journey: [pt] \n\n total loops: [loop]"
 
     centered "this ends the game! thanks for playing!"
 
