@@ -69,6 +69,9 @@ default svetatea = False ## if you played teatime.sveta and learned she maybe li
 default svet_tour = 0
 default svet_room1 = False ## the rose noticing sveta's style but also because she was concerned-friend about shane dating ilya, and sveta saying 'me too'
 default svet_room3 = False ## sveta feeling Some Kind Of Way about ilya stashing all his trophies away in shane's cottage's guest room
+default sv_room1loop = 0
+default sv_room2loop = 0
+default sv_room3loop = 0
 
 default russian = 0
 default aloneloop = 0
@@ -103,6 +106,7 @@ default russianpass = False
 default convincesvet = 0
 default blindsnow = False
 default kissnow = False
+default testpassnow = False
 default svet_room2 = False # reference to rabbit in her luggage lol
 
 default shanemove = False # if you stopped housetour and talked about shane moving to the Cens as a free agent
@@ -150,7 +154,7 @@ define gui.show_name = True
 
 ## The version of the game.
 
-define config.version = "1.3"
+define config.version = "1.4"
 
 
 ## Text that is placed on the game's about screen. Place the text between the

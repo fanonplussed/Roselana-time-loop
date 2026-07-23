@@ -1629,7 +1629,7 @@ screen playtest:
 
     add "gui/game_menu.png"
 
-    grid 3 15:
+    grid 3 16:
         textbutton "close playtest screen" action Hide()
         null
         text "number of loops: [loop]"
@@ -1662,6 +1662,10 @@ screen playtest:
         text "svet_room3? [svet_room3]"
         text "aloneloop? [aloneloop]"
         text "russian level? [russian]"
+
+        text "done svet rm 1? [sv_room1loop]"
+        text "done svet rm 2? [sv_room2loop]"
+        text "done svet rm 3? [sv_room3loop]"
 
         text "cleared emails? [clearemail + clearemail2]"
         text "played game? [foodtruckkitty + foodtruckkitty2]"
