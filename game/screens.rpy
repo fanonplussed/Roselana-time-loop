@@ -1629,11 +1629,22 @@ screen playtest:
 
     add "gui/game_menu.png"
 
-    grid 3 16:
-        textbutton "close playtest screen" action Hide()
+    grid 3 19:
         null
-        text "number of loops: [loop]"
+        null
+        null
 
+        null
+        textbutton "{b}close playtest screen{/b}" action Hide()
+        null
+
+        null
+        null
+        null
+
+        text "number of loops: [loop]"
+        null
+        null
 
         text "sveta likes you? [svetheart]"
         text "ilya likes you? [ilyaheart]"
@@ -1677,7 +1688,7 @@ screen playtest:
 
         text "times outside? [outside]"
         text "times inside? [inside]"
-        text "convinced svet? [svetpass]"
+        text "passed test times? [svetpass]"
 
         text "no of kisses? [kisscount]"
         text "giftbought? [giftbought]"

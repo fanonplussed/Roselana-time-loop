@@ -1160,7 +1160,7 @@ label entrancepass:
             "No":
                 pass
 
-        RL "Well, not personally. But sometimes hockey media will talk about you two and...ah..." ## 'hockey blogs'...? press? paps??
+        RL "Well, not personally. But sometimes hockey twitter will talk about you two and...ah..."
 
         show zzir frown
         show zzsh frown
@@ -1181,7 +1181,7 @@ label entrancepass:
             "No":
                 pass
 
-        RL "Well, not personally. But sometimes...hockey...media..."
+        RL "Well, not personally. But sometimes...hockey...twitter..."
 
         show zzrl hesitant
 
@@ -1368,7 +1368,7 @@ label entrancepass:
 
                             show zzsh hesitant
 
-                            SH "..you want to give me an Ilya Rozanov jersey?"
+                            SH "...you want to give me an Ilya Rozanov jersey?"
 
                             show zzir frown
 
@@ -1728,8 +1728,8 @@ label housetour:
     SH "Oh, sorry, I guess you don't really need to know all this stuff. I mean, like he said, you're not staying over, so who cares about the guest rooms?"
 
     menu:
-        "Carry on with the house tour": ## different rose dialogue 1st time vs other loops
-            $ pt += "house tour, "
+        "Carry on with the house tour":
+            $ pt += "house tour1, "
 
             $ tourloop += 1
 
@@ -1862,12 +1862,14 @@ label housetour:
 
             show zzsh smile_blush
 
-            SH "Shut up, Landry. And technically, if you stayed over, you'd also spend most of your time in the guest room with your eyes closed, right? {i}Asleep.{/i}"
+            SH "Shut up, Landry. And technically, if you stayed over, you'd also spend most of your time in the guest room with your eyes closed, alright? {i}Asleep.{/i}"
             
             SH "Anyway, let me show you some of the other rooms."
             
             menu:
                 "See the west-facing guest room":
+                    $ pt += "house tour2, "
+
                     scene bg room2
 
                     show zzsh flat at center
@@ -1964,6 +1966,7 @@ label housetour:
                     $ shane_room2 = True
 
                 "See the guest room downstairs":
+                    $ pt += "house tour3, "
                     scene bg room3
 
                     show zzsh flat at center
@@ -2059,8 +2062,6 @@ label housetour:
                     $ shane_room3 = True
                     
         "Talk about something else":
-            $ pt += "fake house tour, "
-
             RL "I promise, I do care, I think it's cool that you were so involved in designing every inch of this cottage, y'know?"
 
             RL "I just also care about {i}you{/i}."
@@ -2068,6 +2069,8 @@ label housetour:
             SH "What?"
 
             if notourloop == 0:
+                $ pt += "fake tour 0, "
+
                 $ notourloop += 1
 
                 RL "How are {i}you{/i}, Shane? I want a tour of the interiority of Shane Hollander, not just his cottage."
@@ -2117,6 +2120,7 @@ label housetour:
 
                 menu:
                     "How are you and Ilya doing?":
+                        $ pt += "fake tour 1, "
 
                         RL "I feel like I haven't talked to you enough lately, y'know? How are you doing, actually? You and Ilya?"
 
@@ -2221,6 +2225,8 @@ label housetour:
                             $ random = 2
                     
                     "How can I make Ilya like me?":
+                        $ pt += "fake tour 2, "
+
                         show zzrl smile
 
                         RL "I feel like I haven't talked to you enough lately, y'know? How are {i}you{/i}, Shane? And how's Ilya?"
@@ -2299,7 +2305,9 @@ label housetour:
 
                         $ random = 2
             
-                    "Is Ilya doing okay?" if outside >= 1: ## maybe the temp living situation in ottawa for ilya
+                    "Is Ilya doing okay?" if outside >= 1:
+                        $ pt += "fake tour 3, "
+
                         show zzrl smile
 
                         RL "I feel like I haven't talked to you enough lately, y'know? How are {i}you{/i}, Shane? And how's Ilya?"
@@ -2628,6 +2636,8 @@ label svet_entrance:
                 SV "Right."
 
                 show zzir annoyed
+                $ ilyaheart -= 1
+                show ir_hate at center, blip
 
                 IR "Wrong. Enough, I need a drink."
             
@@ -2779,7 +2789,7 @@ label svet_entrance:
 
     show zzsh eyeroll
 
-    SH "Unless each of her bags is 300lbs, it's {i}not{/i} going to count as your training for today." ## check canadian units, and also check...athlete physiology
+    SH "Unless each of her bags is 200lbs, it's {i}not{/i} going to count as your training for today."
 
     show zzir flat
 
@@ -2787,7 +2797,7 @@ label svet_entrance:
 
     show zzsh eyeroll
 
-    SH "Her bags are not 300lbs each, Rozanov."
+    SH "Her bags are not 200lbs each, Rozanov."
 
     show zzir smirk
 
@@ -3072,7 +3082,7 @@ label chillalone:
     jump dinner
 
 label housetour2: ## flirty loop 1 and write new rose loop 2+ where she is less surprised
-    $ pt += "sveta tour, "
+    $ pt += "sveta tour1, "
 
     scene bg room2
 
@@ -3211,6 +3221,7 @@ label housetour2: ## flirty loop 1 and write new rose loop 2+ where she is less 
 
     menu:
         "Show Svetlana the east-facing guest room":
+            $ pt += "sveta tour2, "
             scene bg room1
 
             show zzsv eyebrow at center
@@ -3232,9 +3243,8 @@ label housetour2: ## flirty loop 1 and write new rose loop 2+ where she is less 
                     
                     "No":
                         pass
-
             
-            if shane_room1 == True: ## heredy heredy here
+            if shane_room1 == True:
 
                 RL "Now, this room is decorated in the Western rustic style, which we hope will be more to your taste, Ma'am, so please enjoy your stay."
 
@@ -3242,92 +3252,108 @@ label housetour2: ## flirty loop 1 and write new rose loop 2+ where she is less 
 
                 SV "Really. This is the room you think will be more to my taste."
 
-                show zzrl smile
+                if svet_room1 == False:
+                    show zzrl hesitant
 
-                RL "Haha, I mean...not really. You don't look like a rustic kinda person."
+                    RL "Oh, hmm...not really? You don't look like a rustic kinda person."
 
-                SV "No?"
+                    SV "No?"
+            
+                    show zzrl thoughtful
 
-                show zzrl thoughtful
+                    RL "Well, your style seems more sophisticated, elegant. Shimmery metallics and classic cuts. Not that fashion style necessarily reflects interior decor preferences, but..." ## i know nothing about clothes and even more nothing about art, help
 
-                RL "Well, your style seems more sophisticated, elegant. Shimmery metallics and classic cuts. Not that fashion style necessarily reflects interior decor preferences, but..." ## i know nothing about clothes and even more nothing about art, help
+                    $ svetheart += 1
+                    show sv_heart at center, blip
 
-                $ svetheart += 1
-                show sv_heart at center, blip
+                    SV "Mm. You've been paying attention to me."
 
-                SV "Mm. You've been paying attention to me."
+                    show zzrl hesitant_blush
 
-                show zzrl hesitant_blush
+                    RL "Oh, well, sorta. Mostly I was paying attention to Ilya, but I couldn't help noticing you."
 
-                RL "Oh, well, sorta. Mostly I was paying attention to Ilya, but I couldn't help noticing you."
+                    show zzsv eyebrow
+                    
+                    SV "To Ilya?"
 
-                show zzsv eyebrow
-                
-                SV "To Ilya?"
+                    show zzrl thoughtful
+                    
+                    RL "It's just...when Shane told me he was dating Ilya, I looked him up—I mean, obviously I already knew who Ilya was, anyone who follows hockey does, but I wasn't really paying attention the same way, y'know?"
 
-                show zzrl thoughtful
-                
-                RL "It's just...when Shane told me he was dating Ilya, I looked him up—I mean, obviously I already knew who Ilya was, anyone who follows hockey does, but I wasn't really paying attention the same way, y'know?"
+                    show zzsv eyebrow
 
-                show zzsv eyebrow
+                    SV "And what way is that?"
 
-                SV "And what way is that?"
+                    RL "In a...a concerned best friend kind of way, I guess."
 
-                RL "In a...a concerned best friend kind of way, I guess."
+                    show zzsv thoughtful
 
-                show zzsv thoughtful
+                    SV "Ah, I know what you mean. I was the same."
 
-                SV "Ah, I know what you mean. I was the same."
+                    show zzrl surprised
 
-                show zzrl surprised
+                    RL "You were the same? As in, you looked up Shane? But he's...I mean, Ilya's reputation is more..."
 
-                RL "You were the same? As in, you looked up Shane? But he's...I mean, Ilya's reputation is more..."
+                    show zzsv eyebrow
 
-                show zzsv eyebrow
+                    SV "Terrible?"
 
-                SV "Terrible?"
+                    show zzrl wince_blush
 
-                show zzrl wince_blush
+                    RL "That's not—I mean, not that I think any of it is true, God knows the media loves to sensationalise, and considering what Ilya's done for Shane, he's obviously, um..."
 
-                RL "That's not—I mean, not that I think any of it is true, God knows the media loves to sensationalise, and considering what Ilya's done for Shane, he's obviously, um..."
+                    show zzsv flat
 
-                show zzsv flat
+                    SV "Domesticated?"
 
-                SV "Domesticated?"
+                    show zzrl hesitant_blush
 
-                show zzrl hesitant_blush
+                    RL "Devoted. I was going to say, he seems devoted to Shane."
 
-                RL "Devoted. I was going to say, he seems devoted to Shane."
+                    SV "Yes, devoted to Shane Hollander, who the media likes to say is devoted to hockey more than anything else. Who only understands hockey and nothing else."
 
-                SV "Yes, devoted to Shane Hollander, who the media likes to say is devoted to hockey more than anything else. Who only understands hockey and nothing else."
+                    show zzrl wince
 
-                show zzrl wince
+                    RL "Ah, yeah, I can see why a best friend might be concerned."
 
-                RL "Ah, yeah, I can see why a best friend might be concerned."
+                    show zzrl hesitant
+                    
+                    RL "But look, Shane's not actually a hockey robot, whatever the press likes to say. Sure, he loves hockey, but he loves Ilya too, and I'd swear his love for Ilya is the real thing." ## come back to this
+                    
+                    show zzsv flat
 
-                show zzrl hesitant
-                
-                RL "But look, Shane's not actually a hockey robot, whatever the press likes to say. Sure, he loves hockey, but he loves Ilya too, and I'd swear his love for Ilya is the real thing." ## come back to this
-                
-                show zzsv flat
+                    SV "And if he had to choose?"
+                    
+                    RL "But why should he have to choose? People are allowed to love more than one thing in their life, right?"
 
-                SV "And if he had to choose?"
-                
-                RL "But why should he have to choose? People are allowed to love more than one thing in their life, right?"
+                    show zzsv unimpressed
 
-                show zzsv unimpressed
+                    SV "Mm, that's a very pretty view of life. But Ilya did have to choose, and he chose Shane, he chose Ottawa. Would Shane do the same?"
 
-                SV "Mm, that's a very pretty view of life. But Ilya did have to choose, and he chose Shane, he chose Ottawa. Would Shane do the same?"
+                    RL "...I...I guess I don't.."
 
-                RL "...I...I guess I don't.."
+                    SV "Never mind, enough about them. Let's talk about something else before we fail the Bechdel test." ## THIS IS A PLACEHOLDER
 
-                SV "Never mind, enough about them. Let's talk about something else before we fail the Bechdel test." ## THIS IS A PLACEHOLDER
+                    show zzrl hesitant
 
-                show zzrl hesitant
+                    RL "Oh, um, right! Er, speaking of pretty views, get a load of the view from this room! As you can see, the—"
 
-                RL "Oh, um, right! Er, speaking of pretty views, get a load of the view from this room! As you can see, the—"
+                    $ svet_room1 = True
 
-                $ svet_room1 = True
+                else:
+                    show zzsv grin
+
+                    RL "Not at all, Ma'am, you seem to have far more elegant and sophisticated tastes. Unfortunately, management says this is the only other room available."
+
+                    show zzsv amused
+                    $ svetheart += 1
+                    show sv_heart at center, blip
+
+                    SV "Hmm, well you may inform management that they're lucky to have such charming staff, otherwise I would certainly be lodging a complaint."
+
+                    show zzrl smile_blush
+
+                    RL "This room really is something else, huh? Well, at least it's got a gorgeous view of—"
             
             else:
 
@@ -3362,6 +3388,7 @@ label housetour2: ## flirty loop 1 and write new rose loop 2+ where she is less 
             with fade
 
         "Show Svetlana the guest room downstairs": 
+            $ pt += "sveta tour3, "
             scene bg room3
 
             show zzsv smile at center
@@ -3386,8 +3413,6 @@ label housetour2: ## flirty loop 1 and write new rose loop 2+ where she is less 
 
             if shane_room3 == True:
 
-                $ svet_room3 = True
-
                 RL "Now, Ma'am, this is our biggest, fanciest room. I hope it will be to your liking!"
 
                 show zzsv amused
@@ -3397,35 +3422,77 @@ label housetour2: ## flirty loop 1 and write new rose loop 2+ where she is less 
 
                 SV "The biggest, fanciest room, all for me?"
 
-                RL "Only the best for our most valued customers! It comes with a spacious bathroom for two, and even has two walk-in closets!"
+                if svet_room3 == False:
 
-                SV "Why does any guest room need one walk-in closet, let alone two? How long does Shane think his guests are staying for?"
+                    RL "Only the best for our most valued customers! It comes with a spacious bathroom for two, and even has two walk-in closets!"
 
-                RL "He built this room for his parents, apparently. Even though they have their own cottage ten minutes away."
+                    SV "Why does any guest room need one walk-in closet, let alone two? How long does Shane think his guests are staying for?"
 
-                SV "My, what a thoughtful son. And how much clothing does he think his parents—"
+                    RL "He built this room for his parents, apparently. Even though they have their own cottage ten minutes away."
 
-                SV "..."
+                    SV "My, what a thoughtful son. And how much clothing does he think his parents—"
 
-                SV "Are these Ilya's trophies in Shane's guest room closet?"
+                    SV "..."
 
-                RL "Oh, yeah, apparently Ilya's house in Ottawa's doesn't have space for all of them...?"
+                    SV "Are these Ilya's trophies in Shane's guest room closet?"
 
-                show zzsv unimpressed
+                    RL "Oh, yeah, apparently Ilya's house in Ottawa's doesn't have space for all of them—"
 
-                SV "...No, it doesn't. Because Ilya did not get a place he truly means to stay for good. So instead he puts all his trophies aside, stashes them in a spare room in Shane's spare house."
+                    show zzsv unimpressed
 
-                show zzrl hesitant
+                    SV "No, because Ilya does not care about having a house in Ottawa. He cares about being two hours away from Shane Hollander, so what does it matter if he buys the first house he sees and has to stash his trophies in a spare room in Shane's spare house—"
 
-                RL "Oh, that's...I mean, Shane says this is temporary...? They're planning to renovate this place to build a proper trophy room for the both of them here...?"
+                    SV "...never mind, forget I said that, it doesn't matter."
 
-                SV "Is that so."
+                    show zzrl hesitant
 
-                show zzsv flat
+                    RL "It...I mean, if it helps, Shane says this is temporary...? They're planning to renovate this place to build a proper trophy room for the both of them here...?"
 
-                SV "Ah, it is what it is. Tell me more about this big, fancy room, Rose."
+                    SV "Is that so."
 
-                RL "Oh, uh, yes Ma'am. It also has lots of natural light, and a gorgeous view of—"
+                    SV "Ah, it is what it is. Tell me more about this big, fancy room, Rose."
+
+                    RL "Oh, uh, yes Ma'am. It also has lots of natural light, and a gorgeous view of—"
+                
+                else:
+                    RL "Only the best for our most valued customers! It comes with a spacious bathroom for two, and...and the room is fully soundproofed!"
+
+                    show zzsv amused
+
+                    SV "Soundproofed? What sort of loud debauchery does Shane expect his guests to get up to in here?"
+
+                    show zzrl grin
+
+                    RL "Well actually, he built this room for his parents, so..."
+
+                    show zzsv eyebrow
+
+                    SV "His {i}parents{/i}?"
+
+                    SV "And what sort of loud debauchery does Shane expect—"
+
+                    scene cut boys_outside3
+                    with fade
+
+                    SV "..."
+
+                    SV "...maybe the debauchery is genetic."
+
+                    RL "It's genetic, athletic, and clearly enthusiastic!"
+
+                    SV "Hah, and very aesthetic, too."
+
+                    RL "Almost balletic, strangely magnetic!"
+
+                    SV "Okay, now you've gone too far, it's not that...{i}poetic{/i}. I'm going back to the dining room."
+
+                    RL "Would it help if I said I was...{i}apologetic{/i}—"
+
+                    $ svet_tour += 1
+
+                    jump dinner
+
+                $ svet_room3 = True
             
             else:
 
@@ -3436,7 +3503,7 @@ label housetour2: ## flirty loop 1 and write new rose loop 2+ where she is less 
             scene cut boys_outside3
             with fade
 
-    RL "Oh!"
+    RL "..."
 
     SV "Mm, yes, I suppose that is quite a view."
 
@@ -3521,9 +3588,13 @@ label blindsclose:
 
         SV "So, time for a little...private conversation, perhaps?"
 
-        SV "Tell me a secret, Rose. Was it really your idea to go as a Weeping Angel to the Met Gala?"
+        SV "{size=-8}Tell me a secret, Rose."
 
-        RL "...oh, that. Hah, yeah, that was entirely my decision. Didn't think a Met Gala outfit would be so controversial. I mean, angels are celestial beings, right? So I figured it was still on theme..."
+        RL "{size=-8}Of course."
+        
+        SV "{size=-8}Did you...really have to coerce your whole team to let you go to the Met Gala as a Weeping Angel?"
+
+        RL "...ah, that. Hah, nah, they all loved it, my team's great. Didn't think a Met Gala outfit would turn out so controversial though. I mean, angels are celestial beings, right? So I figured it was still on theme..."
 
     jump dinner
 
@@ -3680,7 +3751,9 @@ label dinner:
 
     show zzsv unimpressed
 
-    SV "No? You draw little Russian grandmothers to you like you draw penalties from insecure D-men. A whole year you've been here, and you still haven't charmed a nice old lady into feeding you? What {i}are{/i} you doing in Ottawa?"
+    SV "No? You draw little Russian grandmothers to you like you draw penalties in the third period when you're down two goals and need a PP miracle. A whole year you've been here, and you still haven't charmed a nice old lady into feeding you?"
+
+    SV "What {i}are{/i} you doing in Ottawa?"
 
     show zzir annoyed
 
@@ -3850,7 +3923,7 @@ label indoors:
         RL "Never mind, maybe I'll just stay here and do...something else. Anything else."
     
     menu:
-        "Read your emails":
+        "Reply to emails":
             $ random = 12
         
         "Eat some chocolates" if giftbought == "choc":
@@ -6258,7 +6331,7 @@ label end:
     scene black
     with fade
 
-    centered "{b}please screenshot this for playtest purposes{/b} \n\n Draft achievement screen (TBD actual achievement choices and making it maybe part of the gallery screen)! \n\n Svetlana badges: kissed Svetlana in your final loop - [kissnow], impressed her with your russian - [yayrussian] \n\n Shane badges: Shane starts thinking about moving to Ottawa - [shanemove], Shane is encouraged to talk to Svetlana about Ilya - [shanesveta], Shane thinks about how okay he is with his team's response to his coming out - [shanetea] \n\n Ilya badges: Ilya likes you [ilyaheart] amount (you deserve a badge if this is not a negative number). \n\n Other badges...??: How good is your Russian - [russian], how many times you've played Food Truck Kitty - [foodtruckkitty + foodtruckkitty2], how much you worked on your beautiful cottage holiday - [clearemail + clearemail2]"
+    centered "{b}please click on the 'playtest' button below and screenshot that page, before carrying on{/b} \n\n Draft achievement screen (TBD actual achievement choices and making it maybe part of the gallery screen)! \n\n Svetlana badges: kissed Svetlana in your final loop - [kissnow], impressed her with your russian - [yayrussian] \n\n Shane badges: Shane starts thinking about moving to Ottawa - [shanemove], Shane is encouraged to talk to Svetlana about Ilya - [shanesveta], Shane thinks maybe he is not okay with his team's response to his coming out - [shanetea] \n\n Ilya badges: Ilya likes you [ilyaheart] amount (you deserve a badge if this is not a negative number). \n\n Other badges...??: How good is your Russian - [russian], how many times you've played Food Truck Kitty - [foodtruckkitty + foodtruckkitty2], how much you worked on your beautiful cottage holiday - [clearemail + clearemail2]"
     
     centered "{b}please screenshot this for playtest purposes also{/b} \n\n your journey: [pt] \n\n total loops: [loop]"
 
